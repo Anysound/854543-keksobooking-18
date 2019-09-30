@@ -23,7 +23,7 @@ function makeRandomNumber(min, max) {
 }
 
 function fillArrWithObjs() {
-  for (var i = 0; i < 22; i++) {
+  for (var i = 0; i < 8; i++) {
     var defaultObj = {
       author: {
         avatar: 'img/avatars/user' + i + '.png'
@@ -33,8 +33,8 @@ function fillArrWithObjs() {
         address: '600, 350',
         price: PRICES[i],
         type: TYPES[i],
-        rooms: ++i,
-        guests: ++i,
+        rooms: i + 1,
+        guests: i + 1,
         checkin: CHECK_TIMES[i],
         checkout: CHECK_TIMES[i],
         features: makeArrWithRandomLength(FEATURES),
@@ -48,10 +48,10 @@ function fillArrWithObjs() {
     };
     arrWithObjs.push(defaultObj);
   }
-}
+};
 
 fillArrWithObjs();
-
+console.log(arrWithObjs);
 document.querySelector('.map').classList.remove('map--faded');
 
 function makePins() {
