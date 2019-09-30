@@ -48,10 +48,10 @@ function fillArrWithObjs() {
     };
     arrWithObjs.push(defaultObj);
   }
-};
+}
 
 fillArrWithObjs();
-console.log(arrWithObjs);
+
 document.querySelector('.map').classList.remove('map--faded');
 
 function makePins() {
