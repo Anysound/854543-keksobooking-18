@@ -51,6 +51,7 @@ function fillArrWithObjs() {
 }
 
 fillArrWithObjs();
+
 document.querySelector('.map').classList.remove('map--faded');
 
 function makePins() {
@@ -71,3 +72,22 @@ function makePins() {
   wrapper.appendChild(fragment);
 }
 makePins();
+
+// создание объявления
+function makeCard() {
+  var card = document.querySelector('#card').content.querySelector('.map__card');
+
+  card.querySelector('.popup__title').textContent = arrWithObjs[0].offer.title;
+  card.querySelector('.popup__text--address').textContent = arrWithObjs[0].offer.address;
+  card.querySelector('.popup__text--price').textContent = arrWithObjs[0].offer.price;
+  card.querySelector('.popup__text--capacity').textContent = arrWithObjs[0].offer.rooms + '' + arrWithObjs[0].offer.guests;
+  card.querySelector('.popup__text--time').textContent = 'Заезд после ' + arrWithObjs[0].offer.checkin + ', выезд до ' + arrWithObjs[0].offer.checkout;
+  card.querySelector('.popup__features').textContent = arrWithObjs[0].offer.features;
+  card.querySelector('.popup__description').textContent = arrWithObjs[0].offer.description;
+  card.querySelector('.popup__photos').src = arrWithObjs[0].offer.photos;
+  card.querySelector('.popup__avatar').src = arrWithObjs[0].author.avatar;
+
+  document.querySelector('.map__pins').insertAdjacentElement('beforebegin', card);
+}
+makeCard();
+
