@@ -90,3 +90,4 @@ function makeCard() {
   document.querySelector('.map__pins').insertAdjacentElement('beforebegin', card);
 }
 makeCard();
+
