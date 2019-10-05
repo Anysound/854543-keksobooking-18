@@ -52,7 +52,7 @@ function fillArrWithObjs() {
 
 fillArrWithObjs();
 
-document.querySelector('.map').classList.remove('map--faded');
+//document.querySelector('.map').classList.remove('map--faded'); // отключено для возврата в исходное состояние
 
 function makePins() {
   var template = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -71,7 +71,7 @@ function makePins() {
   }
   wrapper.appendChild(fragment);
 }
-makePins();
+//makePins(); отключена для возврата в исходное состояние
 
 // создание объявления
 function makeCard() {
@@ -89,5 +89,65 @@ function makeCard() {
 
   document.querySelector('.map__pins').insertAdjacentElement('beforebegin', card);
 }
-makeCard();
+//makeCard(); отключено для возврата в исходное состояние
+
+// отключение полей
+var inputs = document.querySelector('.ad-form').children;
+for (var i = 0; i < inputs.length; i++) {
+  inputs[i].setAttribute('disabled', '');
+}
+
+var pin = document.querySelector('.map__pin--main');
+
+function pinMouseDownHandler() {
+  document.querySelector('.map').classList.remove('map--faded');
+  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].removeAttribute('disabled');
+  }
+
+  pinMouseOverHandler(evt);
+}
+
+function pinMouseOverHandler(evt) {
+  document.querySelector('#address').value = evt.clientX + ' ' + evt.clientY;
+}
+
+pin.addEventListener('mousedown', pinMouseDownHandler);
+pin.addEventListener('keypress', function(evt) {
+  if (evt.keyCode === 13) {
+    document.querySelector('.map').classList.remove('map--faded');
+  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].removeAttribute('disabled');
+  }
+  }
+});
+pin.addEventListener('mouseover', pinMouseOverHandler);
+
+// валидация
+var inputRoomAmount = document.querySelector('#room_number');
+var inputGuestAmount = document.querySelector('#capacity');
+
+
+inputRoomAmount.addEventListener('invalid', function(evt) {
+  if (inputGuestAmount.options[0].value !== inputRoomAmount.options[0].value) {
+    inputRoomAmount.setCustomValidity('different amount');
+  }
+});
+
+function OptionClickHandler(option) {
+  option.setAttribute('required', '');
+};
+
+console.log(inputGuestAmount.options.length);
+
+for (var i = 0; i < inputGuestAmount.options.length; i++) {
+  inputGuestAmount[i].addEventListener('click', OptionClickHandler);
+}
+
+console.log(inputGuestAmount.options[1].setAttribute('selected', ''))
+
 
