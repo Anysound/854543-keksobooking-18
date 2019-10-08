@@ -159,9 +159,7 @@ function formValidityHandler() {
   } else {
     selectGuestAmount.setCustomValidity('');
   }
-};
-
-
+}
 
 formValidityHandler();
 selectGuestAmount.addEventListener('change', formValidityHandler); // обработчик для формы одновременно обрабатывает селект, другие поля валидируются html-атрибутами
