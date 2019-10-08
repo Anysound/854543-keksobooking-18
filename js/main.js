@@ -151,7 +151,7 @@ var errorMessages = {
   }
 };
 
-function selectValidityHandler() {
+function formValidityHandler() {
   var amountOfRooms = selectRoomAmount.value;
   var amountOfGuests = selectGuestAmount.value;
   if (!errorMessages[amountOfRooms].amount.includes(amountOfGuests)) {
@@ -159,9 +159,11 @@ function selectValidityHandler() {
   } else {
     selectGuestAmount.setCustomValidity('');
   }
-}
+};
 
-selectValidityHandler();
 
-selectRoomAmount.addEventListener('change', selectValidityHandler);
-selectGuestAmount.addEventListener('change', selectValidityHandler);
+
+formValidityHandler();
+selectGuestAmount.addEventListener('change', formValidityHandler); // обработчик для формы одновременно обрабатывает селект, другие поля валидируются html-атрибутами
+form.addEventListener('submit', formValidityHandler);
+
