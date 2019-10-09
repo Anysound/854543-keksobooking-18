@@ -151,6 +151,16 @@ var errorMessages = {
   }
 };
 
+function selectValidityHandler() {
+  var amountOfRooms = selectRoomAmount.value;
+  var amountOfGuests = selectGuestAmount.value;
+  if (!errorMessages[amountOfRooms].amount.includes(amountOfGuests)) {
+    selectGuestAmount.setCustomValidity(errorMessages[amountOfRooms].errorText);
+  } else {
+    selectGuestAmount.setCustomValidity('');
+  }
+}
+
 function formValidityHandler() {
   var amountOfRooms = selectRoomAmount.value;
   var amountOfGuests = selectGuestAmount.value;
@@ -161,7 +171,7 @@ function formValidityHandler() {
   }
 }
 
-formValidityHandler();
-selectGuestAmount.addEventListener('change', formValidityHandler); // обработчик для формы одновременно обрабатывает селект, другие поля валидируются html-атрибутами
+selectValidityHandler();
+selectGuestAmount.addEventListener('change', selectValidityHandler); // обработчик для формы одновременно обрабатывает селект, другие поля валидируются html-атрибутами
 form.addEventListener('submit', formValidityHandler);
 
