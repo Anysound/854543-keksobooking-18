@@ -132,46 +132,112 @@ var form = document.querySelector('.ad-form');
 var selectRoomAmount = form.querySelector('#room_number');
 var selectGuestAmount = form.querySelector('#capacity');
 
-var errorMessages = {
-  '1': {
-    amount: ['1'],
-    errorText: '1 комната для 1 гостя'
-  },
-  '2': {
-    amount: ['1', '2'],
-    errorText: '2 комнаты для для 2 гостей или для 1 гостя'
-  },
-  '3': {
-    amount: ['1', '2', '3'],
-    errorText: '3 комнаты для 3 гостей, 2 гостей или для 1 гостя'
-  },
-  '100': {
-    amount: ['0'],
-    errorText: '100 комнат не для гостей'
-  }
-};
 
-function selectValidityHandler() {
+// function selectRoomValidHandler() {
+//   var amountOfRooms = selectRoomAmount.value;
+//   var amountOfGuests = selectGuestAmount.value;
+
+//   if (amountOfRooms !== amountOfGuests) {
+//     for (var i = 0; i < selectGuestAmount.children.length; i++) {
+// 	  if (amountOfRooms !== selectGuestAmount[i].value) {
+//       selectGuestAmount[i].setAttribute('disabled', '');
+//     } else {
+//       selectGuestAmount[i].removeAttribute('disabled');
+//       //selectGuestAmount[i].setAttribute('selected', '');
+//     }
+//     }
+//   }
+// };
+
+// function selectGuestValidHandler() {
+//   var amountOfRooms = selectRoomAmount.value;
+//   var amountOfGuests = selectGuestAmount.value;
+
+//   if (amountOfRooms !== amountOfGuests) {
+//     for (var i = 0; i < selectRoomAmount.children.length; i++) {
+// 	  if (amountOfGuests !== selectRoomAmount[i].value) {
+//       selectRoomAmount[i].setAttribute('disabled', '');
+//     } else {
+//       selectRoomAmount[i].removeAttribute('disabled');
+//       //selectGuestAmount[i].setAttribute('selected', '');
+//     }
+//     }
+//   }
+// };
+// валидатор селекта
+function selectValidHandler() {
   var amountOfRooms = selectRoomAmount.value;
   var amountOfGuests = selectGuestAmount.value;
-  if (!errorMessages[amountOfRooms].amount.includes(amountOfGuests)) {
-    selectGuestAmount.setCustomValidity(errorMessages[amountOfRooms].errorText);
+
+  if (amountOfRooms === '3') {
+    for (var j = 0; j < selectGuestAmount.children.length; j++) {
+      if (selectRoomAmount[j].value >= 4) {
+        selectGuestAmount[j].setAttribute('disabled', '');
+      } else {
+        selectGuestAmount[j].removeAttribute('disabled');
+      }
+    }
+  }
+
+  if (amountOfRooms === '2') {
+    selectGuestAmount[0].setAttribute('disabled', '');
+    selectGuestAmount[2].removeAttribute('disabled');
+    selectGuestAmount[3].setAttribute('disabled', '');
+  }
+
+  if (amountOfRooms === '1') {
+    for (var x = 0; x < selectGuestAmount.children.length; x++) {
+      if (amountOfGuests !== selectGuestAmount[x].value) {
+        selectGuestAmount[x].setAttribute('disabled', '');
+      } else {
+        selectGuestAmount[x].removeAttribute('disabled');
+      }
+    }
+  }
+
+  if (amountOfRooms === '100') {
+    for (var z = 0; z < selectGuestAmount.children.length; z++) {
+      if (selectRoomAmount[z].value <= 3) {
+        selectGuestAmount[z].setAttribute('disabled', '');
+      } else {
+        selectGuestAmount[z].removeAttribute('disabled');
+      }
+    }
+  }
+}
+// валидатор формы
+function formValidHandler() {
+  var title = form.querySelector('#title');
+  var amountOfRooms = selectRoomAmount.value;
+  var amountOfGuests = selectGuestAmount.value;
+  var obj = title.validity;
+  // проверка длины названия
+  if (obj.tooShort) {
+    title.setCustomValidity('слишком короткое значение, минимальная кол-во символов в названии - 30');
   } else {
-    selectGuestAmount.setCustomValidity('');
+    title.setCustomValidity('');
+  }
+  // проверка соответствия кол-ва
+  if (amountOfRooms !== amountOfGuests) {
+    selectRoomAmount.setCustomValidity('кол-во комнат должно соответствовать кол-ву гостей');
+  } else {
+    selectRoomAmount.setCustomValidity('');
   }
 }
 
-function formValidityHandler() {
-  var amountOfRooms = selectRoomAmount.value;
-  var amountOfGuests = selectGuestAmount.value;
-  if (!errorMessages[amountOfRooms].amount.includes(amountOfGuests)) {
-    selectGuestAmount.setCustomValidity(errorMessages[amountOfRooms].errorText);
-  } else {
-    selectGuestAmount.setCustomValidity('');
-  }
-}
 
-selectValidityHandler();
-selectGuestAmount.addEventListener('change', selectValidityHandler); // обработчик для формы одновременно обрабатывает селект, другие поля валидируются html-атрибутами
-form.addEventListener('submit', formValidityHandler);
+// function formValidityHandler() {
+//   var amountOfRooms = selectRoomAmount.value;
+//   var amountOfGuests = selectGuestAmount.value;
+//   if (!errorMessages[amountOfRooms].amount.includes(amountOfGuests)) {
+//     selectGuestAmount.setCustomValidity(errorMessages[amountOfRooms].errorText);
+//   } else {
+//     selectGuestAmount.setCustomValidity('');
+//   }
+// }
+
+selectRoomAmount.addEventListener('input', selectValidHandler);
+selectGuestAmount.addEventListener('input', selectValidHandler);
+// form.addEventListener('submit', formValidHandler); не работает, почему-то
+form.querySelector('.ad-form__submit').addEventListener('click', formValidHandler);
 
