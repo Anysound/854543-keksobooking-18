@@ -132,38 +132,6 @@ var form = document.querySelector('.ad-form');
 var selectRoomAmount = form.querySelector('#room_number');
 var selectGuestAmount = form.querySelector('#capacity');
 
-
-// function selectRoomValidHandler() {
-//   var amountOfRooms = selectRoomAmount.value;
-//   var amountOfGuests = selectGuestAmount.value;
-
-//   if (amountOfRooms !== amountOfGuests) {
-//     for (var i = 0; i < selectGuestAmount.children.length; i++) {
-// 	  if (amountOfRooms !== selectGuestAmount[i].value) {
-//       selectGuestAmount[i].setAttribute('disabled', '');
-//     } else {
-//       selectGuestAmount[i].removeAttribute('disabled');
-//       //selectGuestAmount[i].setAttribute('selected', '');
-//     }
-//     }
-//   }
-// };
-
-// function selectGuestValidHandler() {
-//   var amountOfRooms = selectRoomAmount.value;
-//   var amountOfGuests = selectGuestAmount.value;
-
-//   if (amountOfRooms !== amountOfGuests) {
-//     for (var i = 0; i < selectRoomAmount.children.length; i++) {
-// 	  if (amountOfGuests !== selectRoomAmount[i].value) {
-//       selectRoomAmount[i].setAttribute('disabled', '');
-//     } else {
-//       selectRoomAmount[i].removeAttribute('disabled');
-//       //selectGuestAmount[i].setAttribute('selected', '');
-//     }
-//     }
-//   }
-// };
 // валидатор селекта
 function selectValidHandler() {
   var amountOfRooms = selectRoomAmount.value;
@@ -205,39 +173,35 @@ function selectValidHandler() {
     }
   }
 }
+
 // валидатор формы
 function formValidHandler() {
+  // валидация названия
   var title = form.querySelector('#title');
+  title.setAttribute('minlength', '30');
+  title.setAttribute('maxlength', '100');
+  title.addEventListener('invalid', function () {
+    if (title.validity.tooShort) {
+      title.setCustomValidity('слишком короткое значение, мин.длина - 30 символов');
+    } else {
+      title.setCustomValidity('');
+    }
+  });
+  // валидация селекта (думаю, не нужно, тк по тз сначала выбирается комната,
+  // и на селекте комнаты уже висит обработчик доступных вариантов, но на всякий случай оставил)
   var amountOfRooms = selectRoomAmount.value;
   var amountOfGuests = selectGuestAmount.value;
-  var obj = title.validity;
-  // проверка длины названия
-  if (obj.tooShort) {
-    title.setCustomValidity('слишком короткое значение, минимальная кол-во символов в названии - 30');
-  } else {
-    title.setCustomValidity('');
-  }
-  // проверка соответствия кол-ва
-  if (amountOfRooms !== amountOfGuests) {
-    selectRoomAmount.setCustomValidity('кол-во комнат должно соответствовать кол-ву гостей');
-  } else {
+
+  if (amountOfRooms === amountOfGuests || amountOfRooms > amountOfGuests) {
     selectRoomAmount.setCustomValidity('');
+  } else {
+    selectRoomAmount.setCustomValidity('кол-во гостей равно кол-ву комнат, или комнат должно быть больше кол-ва гостей');
   }
 }
 
+selectRoomAmount.addEventListener('change', selectValidHandler);
 
-// function formValidityHandler() {
-//   var amountOfRooms = selectRoomAmount.value;
-//   var amountOfGuests = selectGuestAmount.value;
-//   if (!errorMessages[amountOfRooms].amount.includes(amountOfGuests)) {
-//     selectGuestAmount.setCustomValidity(errorMessages[amountOfRooms].errorText);
-//   } else {
-//     selectGuestAmount.setCustomValidity('');
-//   }
-// }
-
-selectRoomAmount.addEventListener('input', selectValidHandler);
-selectGuestAmount.addEventListener('input', selectValidHandler);
-// form.addEventListener('submit', formValidHandler); не работает, почему-то
-form.querySelector('.ad-form__submit').addEventListener('click', formValidHandler);
-
+form.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  formValidHandler();
+});
