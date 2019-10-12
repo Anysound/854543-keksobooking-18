@@ -202,8 +202,28 @@ function formValidHandler() {
 
 }
 
-selectRoomAmount.addEventListener('change', selectValidHandler);
+// изменение цены при разных типах жилья
+var selectType = form.querySelector('#type');
+var price = form.querySelector('#price');
+function houseTypeHandler() {
+  var houseType = selectType.value;
+  if (houseType === 'bungalo') {
+    price.setAttribute('placeholder', '0');
+    price.setAttribute('min', '0');
+  } else if (houseType === 'flat') {
+    price.setAttribute('placeholder', '1000');
+    price.setAttribute('min', '1000');
+  } else if (houseType === 'house') {
+    price.setAttribute('placeholder', '5000');
+    price.setAttribute('min', '5000');
+  } else if (houseType === 'palace') {
+    price.setAttribute('placeholder', '10000');
+    price.setAttribute('min', '10000');
+  }
+}
 
+selectRoomAmount.addEventListener('change', selectValidHandler);
+selectType.addEventListener('change', houseTypeHandler);
 form.addEventListener('submit', function (evt) {
   evt.preventDefault();
   formValidHandler();
