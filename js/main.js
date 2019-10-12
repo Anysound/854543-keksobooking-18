@@ -149,6 +149,7 @@ function selectValidHandler() {
 
   if (amountOfRooms === '2') {
     selectGuestAmount[0].setAttribute('disabled', '');
+    selectGuestAmount[1].removeAttribute('disabled');
     selectGuestAmount[2].removeAttribute('disabled');
     selectGuestAmount[3].setAttribute('disabled', '');
   }
@@ -187,6 +188,7 @@ function formValidHandler() {
       title.setCustomValidity('');
     }
   });
+
   // валидация селекта (думаю, не нужно, тк по тз сначала выбирается комната,
   // и на селекте комнаты уже висит обработчик доступных вариантов, но на всякий случай оставил)
   var amountOfRooms = selectRoomAmount.value;
@@ -197,6 +199,7 @@ function formValidHandler() {
   } else {
     selectRoomAmount.setCustomValidity('кол-во гостей равно кол-ву комнат, или комнат должно быть больше кол-ва гостей');
   }
+
 }
 
 selectRoomAmount.addEventListener('change', selectValidHandler);
