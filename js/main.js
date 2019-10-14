@@ -52,28 +52,11 @@ function fillArrWithObjs() {
 
 fillArrWithObjs();
 
-// document.querySelector('.map').classList.remove('map--faded'); // отключено для возврата в исходное состояние
+//document.querySelector('.map').classList.remove('map--faded'); // отключено для возврата в исходное состояние
 
-// function makePins() {
-//   var template = document.querySelector('#pin').content.querySelector('.map__pin');
-//   var wrapper = document.querySelector('.map__pins');
-//   var fragment = document.createDocumentFragment();
 
-//   for (var i = 0; i < arrWithObjs.length; i++) {
-//     var clone = template.cloneNode(true);
 
-//     clone.style.left = arrWithObjs[i].location.x + 'px';
-//     clone.style.top = arrWithObjs[i].location.y + 'px';
-//     clone.src = arrWithObjs[i].author.avatar;
-//     clone.alt = arrWithObjs[i].offer.description;
-
-//     fragment.appendChild(clone);
-//   }
-//   wrapper.appendChild(fragment);
-// }
-// makePins(); отключено для возврата в исходное состояние
-
-// создание объявления
+//создание объявления
 // function makeCard() {
 //   var card = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -90,7 +73,117 @@ fillArrWithObjs();
 //   document.querySelector('.map__pins').insertAdjacentElement('beforebegin', card);
 // }
 // makeCard(); // отключено для возврата в исходное состояние
+console.log(arrWithObjs);
+function makeCards() {
+  var card = document.querySelector('#card').content.querySelector('.map__card');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < arrWithObjs.length; i++) {
+    var clone = card.cloneNode(true);
+    console.log(card);
+    card.querySelector('.popup__title').textContent = arrWithObjs[i].offer.title;
+    card.querySelector('.popup__text--address').textContent = arrWithObjs[i].offer.address;
+    card.querySelector('.popup__text--price').textContent = arrWithObjs[i].offer.price;
+    card.querySelector('.popup__text--capacity').textContent = arrWithObjs[i].offer.rooms + '' + arrWithObjs[i].offer.guests;
+    card.querySelector('.popup__text--time').textContent = 'Заезд после ' + arrWithObjs[i].offer.checkin + ', выезд до ' + arrWithObjs[i].offer.checkout;
+    card.querySelector('.popup__features').textContent = arrWithObjs[i].offer.features;
+    card.querySelector('.popup__description').textContent = arrWithObjs[i].offer.description;
+    card.querySelector('.popup__photos').src = arrWithObjs[i].offer.photos;
+    card.querySelector('.popup__avatar').src = arrWithObjs[i].author.avatar;
+    document.querySelector('.map__pins').insertAdjacentElement('beforebegin', clone);
+    //document.querySelector('.map__pins').insertAdjacentElement('beforebegin', card);
+    //fragment.appendChild(clone);
+  }
+  //document.querySelector('.map').appendChild(fragment);
+  //document.querySelector('.map').prepend(fragment);
+  //document.querySelector('.map__pins').insertAdjacentElement('beforebegin', fragment);
+}
+makeCards();
+window.cards = document.querySelectorAll('.map__card');
+for (var i = 0; i < window.cards.length; i++) {
+  window.cards[i].classList.add('hidden');
+}; // hide cards
 
+
+
+function makePins() {
+  var template = document.querySelector('#pin').content.querySelector('.map__pin');
+  var wrapper = document.querySelector('.map__pins');
+  var fragment = document.createDocumentFragment();
+
+
+
+  for (var i = 0; i < arrWithObjs.length; i++) {
+    var clone = template.cloneNode(true);
+    //var cards = document.querySelectorAll('.map__card');
+    console.log(cards);
+    clone.style.left = arrWithObjs[i].location.x + 'px';
+    clone.style.top = arrWithObjs[i].location.y + 'px';
+    clone.src = arrWithObjs[i].author.avatar;
+    clone.alt = arrWithObjs[i].offer.description;
+    //console.log(window.cards);
+    clone.addEventListener('click', function(i) {
+      //alert(true);
+      console.log(window.cards);
+      window.cards[i - 4].classList.remove('hidden');
+    });
+    fragment.appendChild(clone);
+  }
+  wrapper.appendChild(fragment);
+}
+makePins(); //отключено для возврата в исходное состояние
+
+// закрытие карточки
+
+
+
+
+// открытие по клику на пин
+// function clickOpenHandler(pin) {
+  
+//   pin.addEventListener('click', function() {
+//     var cards = document.querySelectorAll('.map__card');
+//     cards[i].classList.remove('hidden');
+//   })
+// }
+// закрытие по клику
+// function clickCloseHandler() {
+//   cards[i].classList.remove('hidden');
+// }
+
+// var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+// for (var i = 0; i < pins.length; i++) {
+//   clickOpenHandler(pins[i]);
+// }
+// console.log(pins);
+// pins[0].addEventListener('click', function() {
+//   cards[0].classList.remove('hidden');
+//   cards[0].querySelector('.popup__close').addEventListener('click', function() {
+//     cards[0].classList.add('hidden');
+//   })
+// })
+// pins[1].addEventListener('click', function() {
+//   cards[1].classList.remove('hidden');
+//   cards[1].querySelector('.popup__close').addEventListener('click', function() {
+//     cards[1].classList.add('hidden');
+//   });
+// });
+// pins[2].addEventListener('click', function() {
+//   cards[2].classList.remove('hidden');
+//   cards[2].classList.add('hidden');
+// })
+// pins[3].addEventListener('click', function() {
+//   cards[3].classList.remove('hidden');
+//   cards[3].classList.add('hidden');
+// })
+// pins[4].addEventListener('click', function() {
+//   cards[4].classList.remove('hidden');
+//   cards[4].classList.add('hidden');
+// })
+// pins[5].addEventListener('click', function() {
+//   cards[5].classList.remove('hidden');
+//   cards[5].classList.add('hidden');
+// })
 // отключение полей
 var inputs = document.querySelector('.ad-form').children;
 for (var i = 0; i < inputs.length; i++) {
