@@ -7,6 +7,8 @@ var URLS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.git
   'http://o0.github.io/assets/images/tokyo/hotel5.jpg', 'http://o0.github.io/assets/images/tokyo/hotel6.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel7.jpg', 'http://o0.github.io/assets/images/tokyo/hotel8.jpg'];
 var PRICES = [100, 150, 200, 250, 350, 450, 500, 600];
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var arrWithObjs = [];
 // вспомогательная функция для создания массива с рандомной длиной
@@ -23,18 +25,18 @@ function makeRandomNumber(min, max) {
 }
 
 function fillArrWithObjs() {
-  for (var i = 0; i < 22; i++) {
+  for (var i = 0; i < 8; i++) {
     var defaultObj = {
       author: {
-        avatar: 'img/avatars/user' + i + '.png'
+        avatar: 'img/avatars/user01' + '.png'
       },
       offer: {
         title: 'title',
         address: '600, 350',
         price: PRICES[i],
         type: TYPES[i],
-        rooms: ++i,
-        guests: ++i,
+        rooms: i,
+        guests: i,
         checkin: CHECK_TIMES[i],
         checkout: CHECK_TIMES[i],
         features: makeArrWithRandomLength(FEATURES),
@@ -98,10 +100,18 @@ function makeCards() {
   //document.querySelector('.map__pins').insertAdjacentElement('beforebegin', fragment);
 }
 makeCards();
+var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 window.cards = document.querySelectorAll('.map__card');
 for (var i = 0; i < window.cards.length; i++) {
   window.cards[i].classList.add('hidden');
+  window.cards[i].setAttribute('tabindex', '0');
 }; // hide cards
+
+
+function clickOpenHandler() {
+  window.cards[elem].classList.remove('hidden');
+}
+
 
 
 
@@ -109,28 +119,66 @@ function makePins() {
   var template = document.querySelector('#pin').content.querySelector('.map__pin');
   var wrapper = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
-
-
-
+  console.log(window.cards);
   for (var i = 0; i < arrWithObjs.length; i++) {
     var clone = template.cloneNode(true);
     //var cards = document.querySelectorAll('.map__card');
-    console.log(cards);
+    //console.log(cards);
     clone.style.left = arrWithObjs[i].location.x + 'px';
     clone.style.top = arrWithObjs[i].location.y + 'px';
     clone.src = arrWithObjs[i].author.avatar;
     clone.alt = arrWithObjs[i].offer.description;
-    //console.log(window.cards);
-    clone.addEventListener('click', function(i) {
-      //alert(true);
-      console.log(window.cards);
-      window.cards[i - 4].classList.remove('hidden');
-    });
+    console.log(window.cards[i]);
+    //clone.addEventListener('click', pinClickHandler);
     fragment.appendChild(clone);
   }
   wrapper.appendChild(fragment);
 }
 makePins(); //отключено для возврата в исходное состояние
+
+function pinClickHandler() {
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  console.log(pins);
+  pins.forEach(function(elem, index) {
+    elem.setAttribute('tabindex', '0');
+    elem.addEventListener('click', function(evt) {
+      window.cards[index].classList.remove('hidden');
+      window.cards[index].style.top = evt.screenY - 200 + 'px';
+      window.cards[index].style.left = evt.screenX + 5 + 'px';
+      window.cards[index].querySelector('.popup__close').setAttribute('tabindex', '0');
+      window.cards[index].querySelector('.popup__close').addEventListener('click', function() {
+        window.cards[index].classList.add('hidden');
+      })
+      elem.addEventListener('keydown', function(evt) {
+        if (evt.keyCode === ESC_KEYCODE) {
+          window.cards[index].classList.remove('hidden');
+        }
+      })
+      //console.log(window.cards[index]);
+    });
+    elem.addEventListener('keydown', function(evt2) {
+      if (evt2.keyCode === ENTER_KEYCODE) {
+        
+        window.cards[index].style.top = evt2.screenY + 200 + 'px';
+        window.cards[index].style.left = evt2.screenX + 'px';
+        elem.classList.remove('hidden');
+      }
+    })
+  })
+};
+pinClickHandler();
+document.addEventListener('click', function(evt) {
+  console.log(evt);
+})
+
+
+// for (var i = 0; i < pins.length; i++) {
+//   pins[i].addEventListener('click', function() {
+//     console.log(window.cards[i]);
+//     window.cards[i].classList.remove('hidden');
+//   })
+// }                            
+// console.log(pins)
 
 // закрытие карточки
 
