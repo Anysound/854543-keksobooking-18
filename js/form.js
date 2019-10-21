@@ -1,39 +1,9 @@
 'use strict';
-(function () { // отключение полей
-  var inputs = document.querySelector('.ad-form').children;
-  for (var x = 0; x < inputs.length; x++) {
-    inputs[x].setAttribute('disabled', '');
+(function () {
+  // отключение полей
+  for (var x = 0; x < window.globalValues.inputs.length; x++) {
+    window.globalValues.inputs[x].setAttribute('disabled', '');
   }
-
-  var pin = document.querySelector('.map__pin--main');
-
-  function pinMouseDownHandler() {
-    document.querySelector('.map').classList.remove('map--faded');
-    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-
-    for (var j = 0; j < inputs.length; j++) {
-      inputs[j].removeAttribute('disabled');
-    }
-
-    pinMouseOverHandler();
-  }
-
-  function pinMouseOverHandler(evt) {
-    document.querySelector('#address').value = evt.clientX + ' ' + evt.clientY;
-  }
-
-  pin.addEventListener('mousedown', pinMouseDownHandler);
-  pin.addEventListener('keypress', function (evt) {
-    if (evt.keyCode === 13) {
-      document.querySelector('.map').classList.remove('map--faded');
-      document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-
-      for (var j = 0; j < inputs.length; j++) {
-        inputs[j].removeAttribute('disabled');
-      }
-    }
-  });
-  pin.addEventListener('mouseover', pinMouseOverHandler);
 
   // валидация
   var form = document.querySelector('.ad-form');

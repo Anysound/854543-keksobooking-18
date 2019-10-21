@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  // создание карточек
   function makeCards() {
     var card = document.querySelector('#card').content.querySelector('.map__card');
     for (var i = 0; i < window.globalValues.arrWithObjs.length; i++) {
