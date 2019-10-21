@@ -6,22 +6,22 @@
     window.cards[i].classList.add('hidden');
     window.cards[i].setAttribute('tabindex', '0');
   }
-  // function makePins() {
-  //   var template = document.querySelector('#pin').content.querySelector('.map__pin');
-  //   var wrapper = document.querySelector('.map__pins');
-  //   var fragment = document.createDocumentFragment();
+  function makePins() {
+    var template = document.querySelector('#pin').content.querySelector('.map__pin');
+    var wrapper = document.querySelector('.map__pins');
+    var fragment = document.createDocumentFragment();
 
-  //   for (var j = 0; j < window.globalValues.arrWithObjs.length; j++) {
-  //     var clone = template.cloneNode(true);
-  //     clone.style.left = window.globalValues.arrWithObjs[j].location.x + 'px';
-  //     clone.style.top = window.globalValues.arrWithObjs[j].location.y + 'px';
-  //     clone.src = window.globalValues.arrWithObjs[j].author.avatar;
-  //     clone.alt = window.globalValues.arrWithObjs[j].offer.description;
-  //     fragment.appendChild(clone);
-  //   }
-  //   wrapper.appendChild(fragment);
-  // }
-  // makePins();
+    for (var j = 0; j < window.globalValues.arrWithObjs.length; j++) {
+      var clone = template.cloneNode(true);
+      clone.style.left = window.globalValues.arrWithObjs[j].location.x + 'px';
+      clone.style.top = window.globalValues.arrWithObjs[j].location.y + 'px';
+      clone.src = window.globalValues.arrWithObjs[j].author.avatar;
+      clone.alt = window.globalValues.arrWithObjs[j].offer.description;
+      fragment.appendChild(clone);
+    }
+    wrapper.appendChild(fragment);
+  }
+  //makePins();
   // обработчик открытия карточек
   function pinClickAndPressHandler() {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -39,7 +39,6 @@
       };
       elem.addEventListener('keydown', pinPressShowHandler);
       var pinClickShowHandler = function (evt) {
-        alert(true)
         window.cards[index].classList.remove('hidden');
         window.cards[index].style.top = evt.clientY + 'px';
         window.cards[index].style.left = evt.clientX + 'px';
@@ -132,7 +131,8 @@
   }
 
   mainPin.addEventListener('mousedown', pinMouseDownHandler);
-  mainPin.addEventListener('mousedown', window.globalValues.makePins)
+  mainPin.addEventListener('mousedown', makePins);
+  mainPin.addEventListener('mouseup', pinClickAndPressHandler)
   mainPin.addEventListener('keypress', function (evt) {
     if (evt.keyCode === 13) {
       document.querySelector('.map').classList.remove('map--faded');
