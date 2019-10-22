@@ -43,7 +43,6 @@
         window.globalValues.cards[index].classList.remove('hidden');
         window.globalValues.cards[index].style.top = evt.clientY + 'px';
         window.globalValues.cards[index].style.left = evt.clientX + 'px';
-
         // если карточка вылезает вниз, разместить ее повыше
         if (parseInt(window.globalValues.cards[index].style.top, 10) > 500) {
           window.globalValues.cards[index].style.top = parseInt(window.globalValues.cards[index].style.top, 10) - 200 + 'px';
