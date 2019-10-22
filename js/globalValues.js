@@ -3,6 +3,8 @@
   window.globalValues = {
     ENTER_KEYCODE: 13,
     ESC_KEYCODE: 27,
-    arrWithObjs: []
+    arrWithObjs: [],
+    inputs: document.querySelector('.ad-form').children,
+    cards: document.querySelectorAll('.map__card')
   };
 })();

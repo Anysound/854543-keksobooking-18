@@ -21,7 +21,7 @@
   function makeRandomNumber(min, max) {
     return Math.round(min + Math.random() * (max - min));
   }
-
+  // заполнение массива объектами
   function fillArrWithObjs() {
     for (var i = 0; i < 8; i++) {
       var defaultObj = {
