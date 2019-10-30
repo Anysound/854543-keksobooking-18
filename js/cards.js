@@ -22,7 +22,7 @@
     var card = document.querySelector('#card').content.querySelector('.map__card');
     card.classList.add('hidden');
     for (var i = 0; i < data.length; i++) {
-      var clone = card.cloneNode(true);
+      var cloneCard = card.cloneNode(true);
       card.querySelector('.popup__title').textContent = data[i].offer.title;
       card.querySelector('.popup__text--address').textContent = data[i].offer.address;
       card.querySelector('.popup__text--price').textContent = data[i].offer.price;
@@ -32,8 +32,7 @@
       card.querySelector('.popup__description').textContent = data[i].offer.description;
       card.querySelector('.popup__photos').src = data[i].offer.photos;
       card.querySelector('.popup__avatar').src = data[i].author.avatar;
-      // fragment.appendChild(clone);
-      document.querySelector('.map__pins').insertAdjacentElement('beforebegin', clone);
+      document.querySelector('.map__pins').insertAdjacentElement('beforebegin', cloneCard);
     }
 
     var template = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -51,23 +50,26 @@
     wrapper.appendChild(fragment);
     function pinClickAndPressHandler() {
       var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      var cards = document.querySelectorAll('.map__card');
       pins.forEach(function (elem, index) {
         elem.style.visibility = 'hidden';
         elem.setAttribute('tabindex', '0');
-        elem.addEventListener('keydown', function (evt) {
-          if (evt.keyCode === window.globalValues.ESC_KEYCODE) {
-            window.globalValues.cards[index].classList.add('hidden');
-          }
-        });
+
         var pinPressShowHandler = function (evt2) {
           if (evt2.keyCode === window.globalValues.ENTER_KEYCODE) {
-            window.globalValues.cards[index].classList.remove('hidden');
+            cards[index].classList.remove('hidden');
+          }
+        };
+
+        var pinPressHideHandler = function (evt) {
+          if (evt.keyCode === window.globalValues.ESC_KEYCODE) {
+            cards[index].classList.add('hidden');
           }
         };
         elem.addEventListener('keydown', pinPressShowHandler);
+        elem.addEventListener('keydown', pinPressHideHandler);
 
         var pinClickShowHandler = function (evt) {
-          var cards = document.querySelectorAll('.map__card');
           cards[index].classList.remove('hidden');
           cards[index].style.top = evt.clientY + 'px';
           cards[index].style.left = evt.clientX + 'px';
@@ -76,8 +78,8 @@
             cards[index].style.top = parseInt(cards[index].style.top, 10) - 200 + 'px';
           }
           // если карточка располагается сильно вправо, сделать полевее
-          if (parseInt(cards[index].style.left, 10) > 900) {
-            cards[index].style.left = parseInt(cards[index].style.left, 10) - 300 + 'px';
+          if (parseInt(cards[index].style.left, 10) > 700) {
+            cards[index].style.left = parseInt(cards[index].style.left, 10) - 600 + 'px';
           }
           cards[index].querySelector('.popup__close').setAttribute('tabindex', '0');
           var pinClickHiddenHandler = function () {
