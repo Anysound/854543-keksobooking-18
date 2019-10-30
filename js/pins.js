@@ -1,7 +1,6 @@
 'use strict';
 (function () {
-  //window.globalValues.cards = document.querySelectorAll('.map__card');
-  console.log(window.globalValues.cards);
+  // window.globalValues.cards = document.querySelectorAll('.map__card');
   // for (var i = 0; i < window.globalValues.cards.length; i++) {
   //   window.globalValues.cards[i].classList.add('hidden');
   //   window.globalValues.cards[i].setAttribute('tabindex', '0');
@@ -22,11 +21,10 @@
   //   wrapper.appendChild(fragment);
   // }
 
-  //makePins();
+  // makePins();
   // обработчик открытия карточек
   function pinClickAndPressHandler() {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    console.log(pins);
     pins.forEach(function (elem, index) {
       elem.style.visibility = 'hidden';
       elem.setAttribute('tabindex', '0');

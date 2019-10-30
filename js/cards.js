@@ -1,8 +1,6 @@
 'use strict';
 (function () {
   // создание карточек
-  
-
   // function makeCards() {
   //   var card = document.querySelector('#card').content.querySelector('.map__card');
   //   for (var i = 0; i < window.globalValues.arrWithObjs.length; i++) {
@@ -20,13 +18,11 @@
   //   }
   // }
 
-  var successHandler = function(data) {
+  var successHandler = function (data) {
     var card = document.querySelector('#card').content.querySelector('.map__card');
     card.classList.add('hidden');
-    console.log(data.length);
     for (var i = 0; i < data.length; i++) {
       var clone = card.cloneNode(true);
-      
       card.querySelector('.popup__title').textContent = data[i].offer.title;
       card.querySelector('.popup__text--address').textContent = data[i].offer.address;
       card.querySelector('.popup__text--price').textContent = data[i].offer.price;
@@ -36,7 +32,7 @@
       card.querySelector('.popup__description').textContent = data[i].offer.description;
       card.querySelector('.popup__photos').src = data[i].offer.photos;
       card.querySelector('.popup__avatar').src = data[i].author.avatar;
-      //fragment.appendChild(clone);
+      // fragment.appendChild(clone);
       document.querySelector('.map__pins').insertAdjacentElement('beforebegin', clone);
     }
 
@@ -55,7 +51,6 @@
     wrapper.appendChild(fragment);
     function pinClickAndPressHandler() {
       var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      console.log(pins);
       pins.forEach(function (elem, index) {
         elem.style.visibility = 'hidden';
         elem.setAttribute('tabindex', '0');
@@ -70,7 +65,7 @@
           }
         };
         elem.addEventListener('keydown', pinPressShowHandler);
-  
+
         var pinClickShowHandler = function (evt) {
           var cards = document.querySelectorAll('.map__card');
           cards[index].classList.remove('hidden');
@@ -94,14 +89,13 @@
       });
     }
     pinClickAndPressHandler();
-  }
+  };
 
-  var errorHandler = function() {
-    alert(true);
+  var errorHandler = function () {
     var errorMessage = document.querySelector('#error').content.querySelector('.error');
     document.querySelector('main').appendChild(errorMessage);
-  }
-  //console.log(document.querySelectorAll('.map__card'))
+  };
+  // console.log(document.querySelectorAll('.map__card'))
   window.backend.load(successHandler, errorHandler);
-  //makeCards();
+  // makeCards();
 })();
