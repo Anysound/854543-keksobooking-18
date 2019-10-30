@@ -1,27 +1,27 @@
 'use strict';
 (function () {
-  window.globalValues.cards = document.querySelectorAll('.map__card');
-  // скрытие карточек
-  for (var i = 0; i < window.globalValues.cards.length; i++) {
-    window.globalValues.cards[i].classList.add('hidden');
-    window.globalValues.cards[i].setAttribute('tabindex', '0');
-  }
-  function makePins() {
-    var template = document.querySelector('#pin').content.querySelector('.map__pin');
-    var wrapper = document.querySelector('.map__pins');
-    var fragment = document.createDocumentFragment();
+  // window.globalValues.cards = document.querySelectorAll('.map__card');
+  // for (var i = 0; i < window.globalValues.cards.length; i++) {
+  //   window.globalValues.cards[i].classList.add('hidden');
+  //   window.globalValues.cards[i].setAttribute('tabindex', '0');
+  // }
+  // function makePins() {
+  //   var template = document.querySelector('#pin').content.querySelector('.map__pin');
+  //   var wrapper = document.querySelector('.map__pins');
+  //   var fragment = document.createDocumentFragment();
 
-    for (var j = 0; j < window.globalValues.arrWithObjs.length; j++) {
-      var clone = template.cloneNode(true);
-      clone.style.left = window.globalValues.arrWithObjs[j].location.x + 'px';
-      clone.style.top = window.globalValues.arrWithObjs[j].location.y + 'px';
-      clone.src = window.globalValues.arrWithObjs[j].author.avatar;
-      clone.alt = window.globalValues.arrWithObjs[j].offer.description;
-      fragment.appendChild(clone);
-    }
-    wrapper.appendChild(fragment);
-  }
-  makePins();
+  //   for (var j = 0; j < window.globalValues.arrWithObjs.length; j++) {
+  //     var clone = template.cloneNode(true);
+  //     clone.style.left = window.globalValues.arrWithObjs[j].location.x + 'px';
+  //     clone.style.top = window.globalValues.arrWithObjs[j].location.y + 'px';
+  //     clone.src = window.globalValues.arrWithObjs[j].author.avatar;
+  //     clone.alt = window.globalValues.arrWithObjs[j].offer.description;
+  //     fragment.appendChild(clone);
+  //   }
+  //   wrapper.appendChild(fragment);
+  // }
+
+  // makePins();
   // обработчик открытия карточек
   function pinClickAndPressHandler() {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -39,19 +39,21 @@
         }
       };
       elem.addEventListener('keydown', pinPressShowHandler);
+
       var pinClickShowHandler = function (evt) {
-        window.globalValues.cards[index].classList.remove('hidden');
-        window.globalValues.cards[index].style.top = evt.clientY + 'px';
-        window.globalValues.cards[index].style.left = evt.clientX + 'px';
+        var cards = document.querySelectorAll('.map__card');
+        cards[index].classList.remove('hidden');
+        cards[index].style.top = evt.clientY + 'px';
+        cards[index].style.left = evt.clientX + 'px';
         // если карточка вылезает вниз, разместить ее повыше
-        if (parseInt(window.globalValues.cards[index].style.top, 10) > 500) {
-          window.globalValues.cards[index].style.top = parseInt(window.globalValues.cards[index].style.top, 10) - 200 + 'px';
+        if (parseInt(cards[index].style.top, 10) > 500) {
+          cards[index].style.top = parseInt(cards[index].style.top, 10) - 200 + 'px';
         }
-        window.globalValues.cards[index].querySelector('.popup__close').setAttribute('tabindex', '0');
+        cards[index].querySelector('.popup__close').setAttribute('tabindex', '0');
         var pinClickHiddenHandler = function () {
-          window.globalValues.cards[index].classList.add('hidden');
+          cards[index].classList.add('hidden');
         };
-        window.globalValues.cards[index].querySelector('.popup__close').addEventListener('click', pinClickHiddenHandler);
+        cards[index].querySelector('.popup__close').addEventListener('click', pinClickHiddenHandler);
       };
       elem.addEventListener('click', pinClickShowHandler);
     });
