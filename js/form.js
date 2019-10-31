@@ -103,10 +103,18 @@
 
   selectRoomAmount.addEventListener('change', selectValidHandler);
   selectType.addEventListener('change', houseTypeHandler);
+
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     formValidHandler();
   });
+
+  form.addEventListener('submit', function(evt) {
+    window.backend.save(new FormData(form), function(response) {
+      form.classList.add('hidden');
+      alert(new FormData(form));
+    })
+  })
 
   // валидация времени
   var timeIn = form.querySelector('#timein');
