@@ -109,13 +109,6 @@
     formValidHandler();
   });
 
-  form.addEventListener('submit', function(evt) {
-    window.backend.save(new FormData(form), function(response) {
-      form.classList.add('hidden');
-      alert(new FormData(form));
-    })
-  })
-
   // валидация времени
   var timeIn = form.querySelector('#timein');
   var timeOut = form.querySelector('#timeout');
@@ -128,4 +121,24 @@
       timeOut.value = '12:00';
     }
   });
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  console.log(pins);
+  form.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), function(response) {
+      var successTemplate = document.querySelector('#success').content.querySelector('.success');
+      document.querySelector('main').appendChild(successTemplate);
+      document.addEventListener('click', function() {
+        successTemplate.style.display = 'none';
+      });
+      document.addEventListener('keydown', function(evt) {
+        if (evt.keyCode === window.globalValues.ESC_KEYCODE) {
+          successTemplate.style.display = 'none';
+        }
+      });
+      form.reset();
+      
+      pins.style.display = 'none';
+    })
+  })
 })();
