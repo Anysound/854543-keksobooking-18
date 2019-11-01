@@ -59,9 +59,18 @@
     var title = form.querySelector('#title');
     title.setAttribute('minlength', '30');
     title.setAttribute('maxlength', '100');
-    title.addEventListener('invalid', function () {
-      if (title.validity.tooShort) {
+    // title.addEventListener('invalid', function () {
+    //   if (title.validity.tooShort) {
+    //     title.setCustomValidity('слишком короткое значение, мин.длина - 30 символов');
+    //   } else {
+    //     title.setCustomValidity('');
+    //   }
+    // });
+
+        title.addEventListener('change', function () {
+      if (title.value.length < title.minlength) {
         title.setCustomValidity('слишком короткое значение, мин.длина - 30 символов');
+        console.log(true);
       } else {
         title.setCustomValidity('');
       }
@@ -73,6 +82,17 @@
     selectGuestAmount[1].setAttribute('disabled', '');
     selectGuestAmount[3].setAttribute('disabled', '');
   }
+
+  var title = form.querySelector('#title');
+    title.setAttribute('minlength', '30');
+    title.setAttribute('maxlength', '100');
+    title.addEventListener('invalid', function () {
+      if (title.validity.tooShort) {
+        title.setCustomValidity('слишком короткое значение, мин.длина - 30 символов');
+      } else {
+        title.setCustomValidity('');
+      }
+    });
 
   // валидация цены при разных типах жилья
   var selectType = form.querySelector('#type');
@@ -121,8 +141,7 @@
       timeOut.value = '12:00';
     }
   });
-  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-  console.log(pins);
+
   form.addEventListener('submit', function(evt) {
     evt.preventDefault();
     window.backend.save(new FormData(form), function(response) {
@@ -136,9 +155,30 @@
           successTemplate.style.display = 'none';
         }
       });
+      // ресет формы
       form.reset();
-      
-      pins.style.display = 'none';
+      // скрытие меток
+      var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      for (var i = 0; i < pins.length; i++) {
+        pins[i].style.display = 'none';
+      };
+      // переход в неактивное состояние
+      document.querySelector('.map').classList.add('map--faded');
+      document.querySelector('.ad-form').classList.add('ad-form--disabled');
+      var fieldsets = document.querySelector('.ad-form').children;
+      for (var i = 0; i < fieldsets.length; i++) {
+        fieldsets[i].setAttribute('disabled', '');
+      }
+      // закрытие карточек
+      var cards = document.querySelectorAll('.map__card');
+      for (var i = 0; i < cards.length; i++) {
+        if (!cards[i].classList.contains('hidden')) {
+          cards[i].classList.add('hidden');
+        }
+      }
+      // установка главной метки на первоначальное положение
+      document.querySelector('.map__pin--main').style.left = '570px';
+      document.querySelector('.map__pin--main').style.top = '375px';
     })
   })
 })();

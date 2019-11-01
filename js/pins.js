@@ -151,11 +151,6 @@
     }
   }
 
-  document.addEventListener('submit', function() {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    pins.style.display = 'none';
-  })
-
   mainPin.addEventListener('mousedown', pinMouseDownHandler);
   mainPin.addEventListener('keydown', pinPressHandler);
   document.querySelector('#address').value = (parseInt(mainPin.style.top, 10) + 33 + 'px') + ' ' + (parseInt(mainPin.style.left, 10) + 33 + 'px');
