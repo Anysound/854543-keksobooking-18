@@ -163,8 +163,10 @@
         pins[i].style.display = 'none';
       };
       // переход в неактивное состояние
+      document.querySelector('#address').value = (parseInt(document.querySelector('.map__pin--main').style.top, 10) + 33 + 'px') + ' ' + (parseInt(document.querySelector('.map__pin--main').style.left, 10) + 33 + 'px');
       document.querySelector('.map').classList.add('map--faded');
       document.querySelector('.ad-form').classList.add('ad-form--disabled');
+      
       var fieldsets = document.querySelector('.ad-form').children;
       for (var i = 0; i < fieldsets.length; i++) {
         fieldsets[i].setAttribute('disabled', '');
