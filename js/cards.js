@@ -54,7 +54,9 @@
       pins.forEach(function (elem, index) {
         elem.style.visibility = 'hidden';
         elem.setAttribute('tabindex', '0');
-
+        elem.addEventListener('click', function () {
+          elem.classList.add('map__pin--active');
+        });
         var pinPressShowHandler = function (evt2) {
           if (evt2.keyCode === window.globalValues.ENTER_KEYCODE) {
             cards[index].classList.remove('hidden');
@@ -84,10 +86,16 @@
           cards[index].querySelector('.popup__close').setAttribute('tabindex', '0');
           var pinClickHiddenHandler = function () {
             cards[index].classList.add('hidden');
+            for (var y = 0; y < pins.length; y++) {
+              if (pins[y].classList.contains('map__pin--active')) {
+                pins[y].classList.remove('map__pin--active');
+              }
+            }
           };
           cards[index].querySelector('.popup__close').addEventListener('click', pinClickHiddenHandler);
         };
         elem.addEventListener('click', pinClickShowHandler);
+
       });
     }
     pinClickAndPressHandler();
