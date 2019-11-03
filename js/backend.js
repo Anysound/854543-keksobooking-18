@@ -34,7 +34,7 @@
         successSaveHandler(xhr.response);
       });
       xhr.addEventListener('error', function () {
-        errorSaveHandler;
+        errorSaveHandler();
       });
       xhr.open('POST', URL);
       xhr.send(data);
