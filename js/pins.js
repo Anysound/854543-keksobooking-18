@@ -42,6 +42,7 @@
 
       var pinClickShowHandler = function (evt) {
         var cards = document.querySelectorAll('.map__card');
+        console.log(cards[index]);
         cards[index].classList.remove('hidden');
         cards[index].style.top = evt.clientY + 'px';
         cards[index].style.left = evt.clientX + 'px';
