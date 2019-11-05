@@ -20,55 +20,52 @@
         for (var i = 0; i < cards.length; i++) {
         //  console.log(cards[i].querySelector('.popup__type').textContent);
           if (cards[i].querySelector('.popup__type').textContent !== 'flat') {
-            cards[i].style.display = 'none';
-            pins[i].style.display = 'none';
+            cards[i].style.visibility = 'hidden';
+            pins[i].style.visibility = 'hidden';
           } else {
-            cards[i].style.display = 'block';
-            pins[i].style.display = 'block';
+            cards[i].style.visibility = 'visible';
+            pins[i].style.visibility = 'visible';
           }
         }
       break;
       case 'any':
         for (var i = 0; i < cards.length; i++) {
-          if (cards[i].querySelector('.popup__type').textContent !== 'any') {
-            cards[i].style.display = 'none';
-            pins[i].style.display = 'none';
-          } else {
-            cards[i].style.display = 'block';
-            pins[i].style.display = 'block';
+          if (cards[i].querySelector('.popup__type')) {
+            cards[i].style.visibility = 'visible';
+            pins[i].style.visibility = 'visible';
           }
         };
         break;
       case 'palace':
         for (var i = 0; i < cards.length; i++) {
           if (cards[i].querySelector('.popup__type').textContent !== 'palace') {
-            cards[i].style.display = 'none';
-            pins[i].style.display = 'none';
+            cards[i].style.visibility = 'hidden';
+            pins[i].style.visibility = 'hidden';
           } else {
-            cards[i].style.display = 'block';
-            pins[i].style.display = 'block';
+            cards[i].style.visibility = 'visible';
+            pins[i].style.visibility = 'visible';
           }
         }
         break;
       case 'house':
         for (var i = 0; i < cards.length; i++) {
           if (cards[i].querySelector('.popup__type').textContent !== 'house') {
-            cards[i].style.display = 'none';
-            pins[i].style.display = 'none';
+            cards[i].style.visibility = 'hidden';
+            pins[i].style.visibility = 'hidden';
           } else {
-            cards[i].style.display = 'block';
-            pins[i].style.display = 'block';
+            cards[i].style.visibility = 'visible';
+            pins[i].style.visibility = 'visible';
           }
         }
         break;
       case 'bungalo':
         for (var i = 0; i < cards.length; i++) {
           if (cards[i].querySelector('.popup__type').textContent !== 'bungalo') {
-            cards[i].style.display = 'none';
-            pins[i].style.display = 'none';
+            cards[i].style.visibility = 'hidden';
+            pins[i].style.visibility = 'hidden';
           } else {
-            cards[i].style.display = 'block';
-            pins[i].style.display = 'block';
+            cards[i].style.visibility = 'visible';
+            pins[i].style.visibility = 'visible';
           }
         }
         break;  
