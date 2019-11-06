@@ -130,7 +130,11 @@
     document.querySelector('.map').classList.remove('map--faded');
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var a = 0; a < pins.length; a++) {
-      pins[a].style.visibility = 'visible';
+      if (a <= 5) {
+        pins[a].style.visibility = 'visible';
+      } else {
+        pins[a].style.visibility = 'hidden';
+      }
     }
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
     for (var j = 0; j < window.globalValues.inputs.length; j++) {

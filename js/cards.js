@@ -35,7 +35,7 @@
       card.querySelector('.popup__avatar').src = data[i].author.avatar;
       document.querySelector('.map__pins').insertAdjacentElement('beforebegin', cloneCard);
     }
-
+    // отрисовка пинов
     var template = document.querySelector('#pin').content.querySelector('.map__pin');
     var wrapper = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
@@ -49,6 +49,7 @@
       fragment.appendChild(clone);
     }
     wrapper.appendChild(fragment);
+
     function pinClickAndPressHandler() {
       var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
       var cards = document.querySelectorAll('.map__card');
