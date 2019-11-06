@@ -10,52 +10,6 @@
   var selectRoomAmount = form.querySelector('#room_number');
   var selectGuestAmount = form.querySelector('#capacity');
 
-  // валидатор селекта комнат
-  // function selectValidHandler() {
-  //   var amountOfRooms = selectRoomAmount.value;
-  //   var amountOfGuests = selectGuestAmount.value;
-  //   var HashAmountOfRooms = {
-  //     amountOfRooms: selectRoomAmount.value,
-  //     amountOfGuests: selectGuestAmount.value
-  //   }
-  //   console.log(HashAmountOfRooms.amountOfRooms);
-  //   if (amountOfRooms === '3') {
-  //     for (var j = 0; j < selectGuestAmount.children.length; j++) {
-  //       if (selectRoomAmount[j].value >= 4) {
-  //         selectGuestAmount[j].setAttribute('disabled', '');
-  //       } else {
-  //         selectGuestAmount[j].removeAttribute('disabled');
-  //       }
-  //     }
-  //   }
-
-  //   if (amountOfRooms === '2') {
-  //     selectGuestAmount[0].setAttribute('disabled', '');
-  //     selectGuestAmount[1].removeAttribute('disabled');
-  //     selectGuestAmount[2].removeAttribute('disabled');
-  //     selectGuestAmount[3].setAttribute('disabled', '');
-  //   }
-
-  //   if (amountOfRooms === '1') {
-  //     for (var y = 0; y < selectGuestAmount.children.length; y++) {
-  //       if (amountOfGuests !== selectGuestAmount[y].value) {
-  //         selectGuestAmount[y].setAttribute('disabled', '');
-  //       } else {
-  //         selectGuestAmount[y].removeAttribute('disabled');
-  //       }
-  //     }
-  //   }
-
-  //   if (amountOfRooms === '100') {
-  //     for (var z = 0; z < selectGuestAmount.children.length; z++) {
-  //       if (selectRoomAmount[z].value <= 3) {
-  //         selectGuestAmount[z].setAttribute('disabled', '');
-  //       } else {
-  //         selectGuestAmount[z].removeAttribute('disabled');
-  //       }
-  //     }
-  //   }
-  // }
   // валидатор комнат
   function selectValidHandler() {
     var HashAmountOfRooms = {

@@ -1,0 +1,133 @@
+'use strict';
+(function () {
+  var filters = document.querySelector('.map__filters');
+  var type = filters.querySelector('#housing-type');
+  type.addEventListener('change', function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var cards = document.querySelectorAll('.map__card');
+
+    switch (type.value) {
+
+      case 'any':
+        // массив отфильтрованных элементов
+        var anyCards = [];
+        for (var i = 0; i < cards.length; i++) {
+          if (cards[i].querySelector('.popup__type')) {
+            cards[i].style.visibility = 'visible';
+            pins[i].style.visibility = 'visible';
+            anyCards.push(pins[i]);
+          } else {
+            cards[i].style.visibility = 'visible';
+            pins[i].style.visibility = 'visible';
+          }
+        }
+        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
+        for (var j = 0; j <= anyCards.length; j++) {
+          if (j < window.globalValues.MAX_AMOUNT_OF_PINS) {
+            anyCards[j].style.visibility = 'visible';
+          } else {
+            anyCards[j].style.visibility = 'hidden';
+          }
+        }
+        break;
+
+      case 'palace':
+        // массив отфильтрованных элементов
+        var palaceCards = [];
+        for (var a = 0; i < cards.length; a++) {
+          if (cards[a].querySelector('.popup__type').textContent !== 'palace') {
+            cards[a].style.visibility = 'hidden';
+            pins[a].style.visibility = 'hidden';
+          } else {
+            cards[a].style.visibility = 'visible';
+            pins[a].style.visibility = 'visible';
+            palaceCards.push(pins[a]);
+          }
+        }
+        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
+        for (var b = 0; b < palaceCards.length; b++) {
+          if (b <= window.globalValues.MAX_AMOUNT_OF_PINS) {
+            palaceCards[b].style.visibility = 'visible';
+          } else {
+            palaceCards[b].style.visibility = 'hidden';
+          }
+        }
+        break;
+
+      case 'flat':
+        // массив отфильтрованных элементов
+        var flatCards = [];
+        for (var c = 0; c < cards.length; c++) {
+          if (cards[c].querySelector('.popup__type').textContent !== 'flat') {
+            cards[c].style.visibility = 'hidden';
+            pins[c].style.visibility = 'hidden';
+          } else {
+            cards[c].style.visibility = 'visible';
+            pins[c].style.visibility = 'visible';
+            flatCards.push(cards[c]);
+          }
+        }
+        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
+        for (var d = 0; d < flatCards.length; d++) {
+          if (d <= window.globalValues.MAX_AMOUNT_OF_PINS) {
+            flatCards[d].style.visibility = 'visible';
+          } else {
+            flatCards[d].style.visibility = 'hidden';
+          }
+        }
+        break;
+
+      case 'house':
+        // массив отфильтрованных элементов
+        var houseCards = [];
+        for (var e = 0; e < cards.length; e++) {
+          if (cards[e].querySelector('.popup__type').textContent !== 'house') {
+            cards[e].style.visibility = 'hidden';
+            pins[e].style.visibility = 'hidden';
+          } else {
+            cards[e].style.visibility = 'visible';
+            pins[e].style.visibility = 'visible';
+            houseCards.push(pins[e]);
+          }
+        }
+        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
+        for (var f = 0; f < houseCards.length; f++) {
+          if (f <= window.globalValues.MAX_AMOUNT_OF_PINS) {
+            houseCards[f].style.visibility = 'visible';
+          } else {
+            houseCards[f].style.visibility = 'hidden';
+          }
+        }
+        break;
+
+      case 'bungalo':
+        // массив отфильтрованных элементов
+        var bungaloCards = [];
+        for (var g = 0; g < cards.length; g++) {
+          if (cards[g].querySelector('.popup__type').textContent !== 'bungalo') {
+            cards[g].style.visibility = 'hidden';
+            pins[g].style.visibility = 'hidden';
+          } else {
+            cards[g].style.visibility = 'visible';
+            pins[g].style.visibility = 'visible';
+            bungaloCards.push(pins[g]);
+          }
+        }
+        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
+        for (var x = 0; x < bungaloCards.length; x++) {
+          if (x <= window.globalValues.MAX_AMOUNT_OF_PINS) {
+            bungaloCards[x].style.visibility = 'visible';
+          } else {
+            bungaloCards[x].style.visibility = 'hidden';
+          }
+        }
+        break;
+    }
+    // скрытие открытой карточки при смене фильтра
+    for (var y = 0; y < cards.length; y++) {
+      if (!cards[y].classList.contains('hidden')) {
+        cards[y].classList.add('hidden');
+      }
+    }
+  });
+})();

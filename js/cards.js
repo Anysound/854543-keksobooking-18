@@ -26,7 +26,8 @@
       card.querySelector('.popup__title').textContent = data[i].offer.title;
       card.querySelector('.popup__text--address').textContent = data[i].offer.address;
       card.querySelector('.popup__text--price').textContent = data[i].offer.price;
-      card.querySelector('.popup__text--capacity').textContent = data[i].offer.rooms + '' + data[i].offer.guests;
+      card.querySelector('.popup__type').textContent = data[i].offer.type;
+      card.querySelector('.popup__text--capacity').textContent = 'количество комнат: ' + data[i].offer.rooms + ' количество гостей: ' + data[i].offer.guests;
       card.querySelector('.popup__text--time').textContent = 'Заезд после ' + data[i].offer.checkin + ', выезд до ' + data[i].offer.checkout;
       card.querySelector('.popup__features').textContent = data[i].offer.features;
       card.querySelector('.popup__description').textContent = data[i].offer.description;
@@ -34,7 +35,7 @@
       card.querySelector('.popup__avatar').src = data[i].author.avatar;
       document.querySelector('.map__pins').insertAdjacentElement('beforebegin', cloneCard);
     }
-
+    // отрисовка пинов
     var template = document.querySelector('#pin').content.querySelector('.map__pin');
     var wrapper = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
@@ -48,6 +49,7 @@
       fragment.appendChild(clone);
     }
     wrapper.appendChild(fragment);
+
     function pinClickAndPressHandler() {
       var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
       var cards = document.querySelectorAll('.map__card');
