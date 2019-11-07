@@ -1,6 +1,13 @@
 'use strict';
 (function () {
   var filters = document.querySelector('.map__filters');
+  var sets = filters.children;
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  var cards = document.querySelectorAll('.map__card');
+  for (var i = 0; i < filters.length; i++) {
+    console.log(filters[i].value);
+  }
+  // фильтрация типа жилья
   var type = filters.querySelector('#housing-type');
   type.addEventListener('change', function () {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -22,19 +29,22 @@
           }
         }
         // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var j = 0; j <= anyCards.length; j++) {
-          if (j < window.globalValues.MAX_AMOUNT_OF_PINS) {
-            anyCards[j].style.visibility = 'visible';
-          } else {
-            anyCards[j].style.visibility = 'hidden';
+        if (anyCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var j = 0; j < anyCards.length; j++) {
+            if (j < window.globalValues.MAX_AMOUNT_OF_PINS) {
+              anyCards[j].style.visibility = 'visible';
+            } else {
+              anyCards[j].style.visibility = 'hidden';
+            }
           }
         }
+
         break;
 
       case 'palace':
         // массив отфильтрованных элементов
         var palaceCards = [];
-        for (var a = 0; i < cards.length; a++) {
+        for (var a = 0; a < cards.length; a++) {
           if (cards[a].querySelector('.popup__type').textContent !== 'palace') {
             cards[a].style.visibility = 'hidden';
             pins[a].style.visibility = 'hidden';
@@ -45,11 +55,13 @@
           }
         }
         // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var b = 0; b < palaceCards.length; b++) {
-          if (b <= window.globalValues.MAX_AMOUNT_OF_PINS) {
-            palaceCards[b].style.visibility = 'visible';
-          } else {
-            palaceCards[b].style.visibility = 'hidden';
+        if (palaceCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var b = 0; b < palaceCards.length; b++) {
+            if (b < window.globalValues.MAX_AMOUNT_OF_PINS) {
+              palaceCards[b].style.visibility = 'visible';
+            } else {
+              palaceCards[b].style.visibility = 'hidden';
+            }
           }
         }
         break;
@@ -68,11 +80,13 @@
           }
         }
         // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var d = 0; d < flatCards.length; d++) {
-          if (d <= window.globalValues.MAX_AMOUNT_OF_PINS) {
-            flatCards[d].style.visibility = 'visible';
-          } else {
-            flatCards[d].style.visibility = 'hidden';
+        if (flatCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var d = 0; d < flatCards.length; d++) {
+            if (d < window.globalValues.MAX_AMOUNT_OF_PINS) {
+              flatCards[d].style.visibility = 'visible';
+            } else {
+              flatCards[d].style.visibility = 'hidden';
+            }
           }
         }
         break;
@@ -91,11 +105,13 @@
           }
         }
         // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var f = 0; f < houseCards.length; f++) {
-          if (f <= window.globalValues.MAX_AMOUNT_OF_PINS) {
-            houseCards[f].style.visibility = 'visible';
-          } else {
-            houseCards[f].style.visibility = 'hidden';
+        if (houseCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var f = 0; f < houseCards.length; f++) {
+            if (f < window.globalValues.MAX_AMOUNT_OF_PINS) {
+              houseCards[f].style.visibility = 'visible';
+            } else {
+              houseCards[f].style.visibility = 'hidden';
+            }
           }
         }
         break;
@@ -114,11 +130,13 @@
           }
         }
         // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var x = 0; x < bungaloCards.length; x++) {
-          if (x <= window.globalValues.MAX_AMOUNT_OF_PINS) {
-            bungaloCards[x].style.visibility = 'visible';
-          } else {
-            bungaloCards[x].style.visibility = 'hidden';
+        if (bungaloCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var x = 0; x < bungaloCards.length; x++) {
+            if (x < window.globalValues.MAX_AMOUNT_OF_PINS) {
+              bungaloCards[x].style.visibility = 'visible';
+            } else {
+              bungaloCards[x].style.visibility = 'hidden';
+            }
           }
         }
         break;
@@ -130,4 +148,83 @@
       }
     }
   });
+
+  // фильтрация цены
+  var priceFilter = document.querySelector('#housing-price');
+  priceFilter.addEventListener('change', function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var cards = document.querySelectorAll('.map__card');
+
+    switch(priceFilter.value) {
+      case 'any':
+        // массив отфильтрованных элементов
+        var anyCards = [];
+        cards.forEach(function (item, index) {
+          if (item.querySelector('.popup__text--price')) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+            anyCards.push(pins[index]);
+          } else {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          }
+        });
+        break;
+
+      case 'middle':
+        // массив отфильтрованных элементов
+        var middleCards = [];
+        console.log(cards);
+        cards.forEach(function (item, index) {
+          var cardPrice = item.querySelector('.popup__text--price').textContent;
+          if (+cardPrice >= 10000 && +cardPrice <= 50000) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+
+      case 'low':
+        var lowCards = [];
+        cards.forEach(function (item, index) {
+          var cardPrice = item.querySelector('.popup__text--price').textContent;
+          if (+cardPrice <= 10000) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+
+      case 'high':
+        var highCards = [];
+        cards.forEach(function (item, index) {
+          var cardPrice = item.querySelector('.popup__text--price').textContent;
+          if (+cardPrice > 50000) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+    }
+  });
+
 })();
+// for (var i = 0; i < cards.length; i++) {
+//   if (cards[i].querySelector('.popup__type')) {
+//     cards[i].style.visibility = 'visible';
+//     pins[i].style.visibility = 'visible';
+//     anyCards.push(pins[i]);
+//   } else {
+//     cards[i].style.visibility = 'visible';
+//     pins[i].style.visibility = 'visible';
+//   }
+// }
