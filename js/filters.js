@@ -9,6 +9,7 @@
   }
   // фильтрация типа жилья
   var type = filters.querySelector('#housing-type');
+  
   type.addEventListener('change', function () {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     var cards = document.querySelectorAll('.map__card');
