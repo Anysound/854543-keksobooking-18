@@ -225,6 +225,28 @@
     var cards = document.querySelectorAll('.map__card');
 
     switch(roomFilter.value) {
+      case 'any':
+        cards.forEach(function (item, index) {
+          var digits = [];
+          var roomAmount = item.querySelector('.popup__text--capacity').textContent;
+          var words = roomAmount.split(' ');
+          words.forEach(function (elem, index) {
+            var num = parseInt(words[index]);
+            if (typeof num === "number" && !isNaN(num)) {
+              digits.push(num);
+            }
+          });
+          console.log(words);
+          if (digits[0] === 1) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+
       case '1':
         cards.forEach(function (item, index) {
           var digits = [];
