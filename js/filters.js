@@ -218,6 +218,81 @@
     }
   });
 
+  // фильтрация комнат
+  var roomFilter = document.querySelector('#housing-rooms');
+  roomFilter.addEventListener('change', function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var cards = document.querySelectorAll('.map__card');
+
+    switch(roomFilter.value) {
+      case '1':
+        cards.forEach(function (item, index) {
+          var digits = [];
+          var roomAmount = item.querySelector('.popup__text--capacity').textContent;
+          var words = roomAmount.split(' ');
+          words.forEach(function (elem, index) {
+            var num = parseInt(words[index]);
+            if (typeof num === "number" && !isNaN(num)) {
+              digits.push(num);
+            }
+          });
+          console.log(words);
+          if (digits[0] === 1) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+
+      case '2':
+        cards.forEach(function (item, index) {
+          var digits = [];
+          var roomAmount = item.querySelector('.popup__text--capacity').textContent;
+          var words = roomAmount.split(' ');
+          words.forEach(function (elem, index) {
+            var num = parseInt(words[index]);
+            if (typeof num === "number" && !isNaN(num)) {
+              digits.push(num);
+            }
+          });
+          console.log(words);
+          if (digits[0] === 2) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+
+      case '3':
+        cards.forEach(function (item, index) {
+          var digits = [];
+          var roomAmount = item.querySelector('.popup__text--capacity').textContent;
+          var words = roomAmount.split(' ');
+          words.forEach(function (elem, index) {
+            var num = parseInt(words[index]);
+            if (typeof num === "number" && !isNaN(num)) {
+              digits.push(num);
+            }
+          });
+          console.log(words);
+          if (digits[0] === 3) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+    }
+  })
+
 })();
 // for (var i = 0; i < cards.length; i++) {
 //   if (cards[i].querySelector('.popup__type')) {
