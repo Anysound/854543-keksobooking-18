@@ -181,11 +181,20 @@
           if (+cardPrice >= 10000 && +cardPrice <= 50000) {
             cards[index].style.visibility = 'visible';
             pins[index].style.visibility = 'visible';
+            middleCards.push(pins[index]);
           } else {
             cards[index].style.visibility = 'hidden';
             pins[index].style.visibility = 'hidden';
           }
         });
+
+        // если отфильтрованных элементов больше 5, скрыть последующие
+        if (middleCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          }
+        }
         break;
 
       case 'low':
@@ -195,11 +204,19 @@
           if (+cardPrice <= 10000) {
             cards[index].style.visibility = 'visible';
             pins[index].style.visibility = 'visible';
+            lowCards.push(pins[index])
           } else {
             cards[index].style.visibility = 'hidden';
             pins[index].style.visibility = 'hidden';
           }
         });
+        // если отфильтрованных элементов больше 5, скрыть последующие
+        if (lowCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          }
+        }
         break;
 
       case 'high':
@@ -209,11 +226,19 @@
           if (+cardPrice > 50000) {
             cards[index].style.visibility = 'visible';
             pins[index].style.visibility = 'visible';
+            highCards.push(pins[index]);
           } else {
             cards[index].style.visibility = 'hidden';
             pins[index].style.visibility = 'hidden';
           }
         });
+        // если отфильтрованных элементов больше 5, скрыть последующие
+        if (highCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          }
+        }
         break;
     }
   });
@@ -238,6 +263,7 @@
         break;
 
       case '1':
+        var filteredOnePins = [];
         cards.forEach(function (item, index) {
           var digits = [];
           var roomAmount = item.querySelector('.popup__text--capacity').textContent;
@@ -252,14 +278,24 @@
           if (digits[0] === 1) {
             cards[index].style.visibility = 'visible';
             pins[index].style.visibility = 'visible';
+            filteredOnePins.push(pins[index]);
+            console.log(filteredPins);
           } else {
             cards[index].style.visibility = 'hidden';
             pins[index].style.visibility = 'hidden';
           }
         });
+        // если отфильтрованных элементов больше 5, скрыть последующие
+        if (filteredOnePins.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          }
+        }
         break;
 
       case '2':
+        var filteredTwoPins = [];
         cards.forEach(function (item, index) {
           var digits = [];
           var roomAmount = item.querySelector('.popup__text--capacity').textContent;
@@ -274,14 +310,23 @@
           if (digits[0] === 2) {
             cards[index].style.visibility = 'visible';
             pins[index].style.visibility = 'visible';
+            filteredTwoPins.push(pins[index]);
           } else {
             cards[index].style.visibility = 'hidden';
             pins[index].style.visibility = 'hidden';
           }
         });
+        // если отфильтрованных элементов больше 5, скрыть последующие
+        if (filteredTwoPins.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+          for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          }
+        }
         break;
 
       case '3':
+        var filteredThreePins = [];
         cards.forEach(function (item, index) {
           var digits = [];
           var roomAmount = item.querySelector('.popup__text--capacity').textContent;
@@ -296,6 +341,7 @@
           if (digits[0] === 3) {
             cards[index].style.visibility = 'visible';
             pins[index].style.visibility = 'visible';
+            filteredThreePins.push(pins[index]);
           } else {
             cards[index].style.visibility = 'hidden';
             pins[index].style.visibility = 'hidden';
@@ -396,6 +442,7 @@
 
   var wifi = features.querySelector('#filter-wifi');
   wifi.addEventListener('change', function () {
+    var samePins = [];
     var cards = document.querySelectorAll('.map__card');
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     cards.forEach(function (item, index) {
@@ -405,15 +452,27 @@
       if (arrFeatures.indexOf('wifi') !== -1) {
         cards[index].style.visibility = 'visible';
         pins[index].style.visibility = 'visible';
+        samePins.push(pins[index]);
       } else {
         cards[index].style.visibility = 'hidden';
         pins[index].style.visibility = 'hidden';
       }
-    })
+    });
+    // проверка на длину не больше 5
+    if (samePins.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+      for (var i = 0; i < samePins.length; i++) {
+        if (i < window.globalValues.MAX_AMOUNT_OF_PINS) {
+          samePins[i].style.visibility = 'visible';
+        } else {
+          samePins[i].style.visibility = 'hidden';
+        }
+      }
+    }
   });
 
   var dishwasher = features.querySelector('#filter-dishwasher');
   dishwasher.addEventListener('change', function () {
+    var samePins = [];
     var cards = document.querySelectorAll('.map__card');
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     cards.forEach(function (item, index) {
@@ -423,15 +482,27 @@
       if (arrFeatures.indexOf('dishwasher') !== -1) {
         cards[index].style.visibility = 'visible';
         pins[index].style.visibility = 'visible';
+        samePins.push(pins[index]);
       } else {
         cards[index].style.visibility = 'hidden';
         pins[index].style.visibility = 'hidden';
       }
-    })
-  })
+    });
+      // проверка на длину не больше 5
+      if (samePins.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+        for (var i = 0; i < samePins.length; i++) {
+          if (i < window.globalValues.MAX_AMOUNT_OF_PINS) {
+            samePins[i].style.visibility = 'visible';
+          } else {
+            samePins[i].style.visibility = 'hidden';
+          }
+        }
+      }
+  });
 
   var parking = features.querySelector('#filter-parking');
   parking.addEventListener('change', function () {
+    var samePins = [];
     var cards = document.querySelectorAll('.map__card');
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
@@ -442,15 +513,27 @@
       if (arrFeatures.indexOf('parking') !== -1) {
         cards[index].style.visibility = 'visible';
         pins[index].style.visibility = 'visible';
+        samePins.push(pins[index]);
       } else {
         cards[index].style.visibility = 'hidden';
         pins[index].style.visibility = 'hidden';
       }
-    })
+    });
+    // проверка на длину не больше 5
+    if (samePins.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+      for (var i = 0; i < samePins.length; i++) {
+        if (i < window.globalValues.MAX_AMOUNT_OF_PINS) {
+          samePins[i].style.visibility = 'visible';
+        } else {
+          samePins[i].style.visibility = 'hidden';
+        }
+      }
+    }
   });
 
   var washer = features.querySelector('#filter-washer');
   washer.addEventListener('change', function () {
+    var samePins = [];
     var cards = document.querySelectorAll('.map__card');
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
@@ -461,15 +544,27 @@
       if (arrFeatures.indexOf('washer') !== -1) {
         cards[index].style.visibility = 'visible';
         pins[index].style.visibility = 'visible';
+        samePins.push(pins[index]);
       } else {
         cards[index].style.visibility = 'hidden';
         pins[index].style.visibility = 'hidden';
       }
-    })
+    });
+    // проверка на длину не больше 5
+    if (samePins.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+      for (var i = 0; i < samePins.length; i++) {
+        if (i < window.globalValues.MAX_AMOUNT_OF_PINS) {
+          samePins[i].style.visibility = 'visible';
+        } else {
+          samePins[i].style.visibility = 'hidden';
+        }
+      }
+    }
   });
 
   var elevator = features.querySelector('#filter-elevator');
   elevator.addEventListener('change', function () {
+    var samePins = [];
     var cards = document.querySelectorAll('.map__card');
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
@@ -480,10 +575,53 @@
       if (arrFeatures.indexOf('elevator') !== -1) {
         cards[index].style.visibility = 'visible';
         pins[index].style.visibility = 'visible';
+        samePins.push(pins[index]);
       } else {
         cards[index].style.visibility = 'hidden';
         pins[index].style.visibility = 'hidden';
       }
+    });
+    // проверка на длину не больше 5
+    if (samePins.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+      for (var i = 0; i < samePins.length; i++) {
+        if (i < window.globalValues.MAX_AMOUNT_OF_PINS) {
+          samePins[i].style.visibility = 'visible';
+        } else {
+          samePins[i].style.visibility = 'hidden';
+        }
+      }
+    }
+  });
+
+  var conditioner = features.querySelector('#filter-conditioner');
+  conditioner.addEventListener('change', function () {
+    var samePins = [];
+    var cards = document.querySelectorAll('.map__card');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    cards.forEach(function (item, index) {
+      var featuresList = cards[index].querySelector('.popup__features').textContent;
+      var arrFeatures = featuresList.split(',');
+      console.log(arrFeatures);
+      if (arrFeatures.indexOf('conditioner') !== -1) {
+        cards[index].style.visibility = 'visible';
+        pins[index].style.visibility = 'visible';
+        samePins.push(pins[index]);
+      } else {
+        cards[index].style.visibility = 'hidden';
+        pins[index].style.visibility = 'hidden';
+      }
+    });
+    // проверка на длину не больше 5
+    if (samePins.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+      for (var i = 0; i < samePins.length; i++) {
+        if (i < window.globalValues.MAX_AMOUNT_OF_PINS) {
+          samePins[i].style.visibility = 'visible';
+        } else {
+          samePins[i].style.visibility = 'hidden';
+        }
+      }
+    }
   })
 
 })();
