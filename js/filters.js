@@ -226,25 +226,15 @@
 
     switch(roomFilter.value) {
       case 'any':
-        cards.forEach(function (item, index) {
-          var digits = [];
-          var roomAmount = item.querySelector('.popup__text--capacity').textContent;
-          var words = roomAmount.split(' ');
-          words.forEach(function (elem, index) {
-            var num = parseInt(words[index]);
-            if (typeof num === "number" && !isNaN(num)) {
-              digits.push(num);
-            }
-          });
-          console.log(words);
-          if (digits[0] === 1) {
-            cards[index].style.visibility = 'visible';
-            pins[index].style.visibility = 'visible';
+        for (var a = 0; a < pins.length; a++) {
+          if (a < window.globalValues.MAX_AMOUNT_OF_PINS) {
+            pins[a].style.visibility = 'visible';
+            cards[a].style.visibility = 'visible';
           } else {
-            cards[index].style.visibility = 'hidden';
-            pins[index].style.visibility = 'hidden';
+            pins[a].style.visibility = 'hidden';
+            cards[a].style.visibility = 'hidden';
           }
-        });
+        }
         break;
 
       case '1':
@@ -313,6 +303,187 @@
         });
         break;
     }
+  })
+
+  // фильтрация гостей
+  var guestFilter = document.querySelector('#housing-guests');
+  guestFilter.addEventListener('change', function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var cards = document.querySelectorAll('.map__card');
+    switch(guestFilter.value) {
+      case 'any':
+        for (var a = 0; a < pins.length; a++) {
+          if (a < window.globalValues.MAX_AMOUNT_OF_PINS) {
+            pins[a].style.visibility = 'visible';
+            cards[a].style.visibility = 'visible';
+          } else {
+            pins[a].style.visibility = 'hidden';
+            cards[a].style.visibility = 'hidden';
+          }
+        }
+        break;
+
+      case '0':
+        cards.forEach(function (item, index) {
+          var digits = [];
+          var guestAmount = item.querySelector('.popup__text--capacity').textContent;
+          var words = guestAmount.split(' ');
+          words.forEach(function (elem, index) {
+            var num = parseInt(words[index]);
+            if (typeof num === "number" && !isNaN(num)) {
+              digits.push(num);
+            }
+          });
+          console.log(words);
+          if (digits[1] === 0) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+
+      case '1':
+        cards.forEach(function (item, index) {
+          var digits = [];
+          var guestAmount = item.querySelector('.popup__text--capacity').textContent;
+          var words = guestAmount.split(' ');
+          words.forEach(function (elem, index) {
+            var num = parseInt(words[index]);
+            if (typeof num === "number" && !isNaN(num)) {
+              digits.push(num);
+            }
+          });
+          console.log(words);
+          if (digits[1] === 1) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+
+      case '2':
+        cards.forEach(function (item, index) {
+          var digits = [];
+          var guestAmount = item.querySelector('.popup__text--capacity').textContent;
+          var words = guestAmount.split(' ');
+          words.forEach(function (elem, index) {
+            var num = parseInt(words[index]);
+            if (typeof num === "number" && !isNaN(num)) {
+              digits.push(num);
+            }
+          });
+          console.log(words);
+          if (digits[1] === 2) {
+            cards[index].style.visibility = 'visible';
+            pins[index].style.visibility = 'visible';
+          } else {
+            cards[index].style.visibility = 'hidden';
+            pins[index].style.visibility = 'hidden';
+          }
+        });
+        break;
+    }
+  });
+
+  // фильтрация по удобствам
+  var features = document.querySelector('#housing-features');
+
+  var wifi = features.querySelector('#filter-wifi');
+  wifi.addEventListener('change', function () {
+    var cards = document.querySelectorAll('.map__card');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    cards.forEach(function (item, index) {
+      var featuresList = cards[index].querySelector('.popup__features').textContent;
+      var arrFeatures = featuresList.split(',');
+      console.log(arrFeatures);
+      if (arrFeatures.indexOf('wifi') !== -1) {
+        cards[index].style.visibility = 'visible';
+        pins[index].style.visibility = 'visible';
+      } else {
+        cards[index].style.visibility = 'hidden';
+        pins[index].style.visibility = 'hidden';
+      }
+    })
+  });
+
+  var dishwasher = features.querySelector('#filter-dishwasher');
+  dishwasher.addEventListener('change', function () {
+    var cards = document.querySelectorAll('.map__card');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    cards.forEach(function (item, index) {
+      var featuresList = cards[index].querySelector('.popup__features').textContent;
+      var arrFeatures = featuresList.split(',');
+      console.log(arrFeatures);
+      if (arrFeatures.indexOf('dishwasher') !== -1) {
+        cards[index].style.visibility = 'visible';
+        pins[index].style.visibility = 'visible';
+      } else {
+        cards[index].style.visibility = 'hidden';
+        pins[index].style.visibility = 'hidden';
+      }
+    })
+  })
+
+  var parking = features.querySelector('#filter-parking');
+  parking.addEventListener('change', function () {
+    var cards = document.querySelectorAll('.map__card');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    cards.forEach(function (item, index) {
+      var featuresList = cards[index].querySelector('.popup__features').textContent;
+      var arrFeatures = featuresList.split(',');
+      console.log(arrFeatures);
+      if (arrFeatures.indexOf('parking') !== -1) {
+        cards[index].style.visibility = 'visible';
+        pins[index].style.visibility = 'visible';
+      } else {
+        cards[index].style.visibility = 'hidden';
+        pins[index].style.visibility = 'hidden';
+      }
+    })
+  });
+
+  var washer = features.querySelector('#filter-washer');
+  washer.addEventListener('change', function () {
+    var cards = document.querySelectorAll('.map__card');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    cards.forEach(function (item, index) {
+      var featuresList = cards[index].querySelector('.popup__features').textContent;
+      var arrFeatures = featuresList.split(',');
+      console.log(arrFeatures);
+      if (arrFeatures.indexOf('washer') !== -1) {
+        cards[index].style.visibility = 'visible';
+        pins[index].style.visibility = 'visible';
+      } else {
+        cards[index].style.visibility = 'hidden';
+        pins[index].style.visibility = 'hidden';
+      }
+    })
+  });
+
+  var elevator = features.querySelector('#filter-elevator');
+  elevator.addEventListener('change', function () {
+    var cards = document.querySelectorAll('.map__card');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    cards.forEach(function (item, index) {
+      var featuresList = cards[index].querySelector('.popup__features').textContent;
+      var arrFeatures = featuresList.split(',');
+      console.log(arrFeatures);
+      if (arrFeatures.indexOf('elevator') !== -1) {
+        cards[index].style.visibility = 'visible';
+        pins[index].style.visibility = 'visible';
+      } else {
+        cards[index].style.visibility = 'hidden';
+        pins[index].style.visibility = 'hidden';
+      }
   })
 
 })();
