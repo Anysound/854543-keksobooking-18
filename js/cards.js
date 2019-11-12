@@ -1,24 +1,8 @@
 'use strict';
 (function () {
-  // создание карточек
-  // function makeCards() {
-  //   var card = document.querySelector('#card').content.querySelector('.map__card');
-  //   for (var i = 0; i < window.globalValues.arrWithObjs.length; i++) {
-  //     var clone = card.cloneNode(true);
-  //     card.querySelector('.popup__title').textContent = window.globalValues.arrWithObjs[i].offer.title;
-  //     card.querySelector('.popup__text--address').textContent = window.globalValues.arrWithObjs[i].offer.address;
-  //     card.querySelector('.popup__text--price').textContent = window.globalValues.arrWithObjs[i].offer.price;
-  //     card.querySelector('.popup__text--capacity').textContent = window.globalValues.arrWithObjs[i].offer.rooms + '' + window.globalValues.arrWithObjs[i].offer.guests;
-  //     card.querySelector('.popup__text--time').textContent = 'Заезд после ' + window.globalValues.arrWithObjs[i].offer.checkin + ', выезд до ' + window.globalValues.arrWithObjs[i].offer.checkout;
-  //     card.querySelector('.popup__features').textContent = window.globalValues.arrWithObjs[i].offer.features;
-  //     card.querySelector('.popup__description').textContent = window.globalValues.arrWithObjs[i].offer.description;
-  //     card.querySelector('.popup__photos').src = window.globalValues.arrWithObjs[i].offer.photos;
-  //     card.querySelector('.popup__avatar').src = window.globalValues.arrWithObjs[i].author.avatar;
-  //     document.querySelector('.map__pins').insertAdjacentElement('beforebegin', clone);
-  //   }
-  // }
 
   var successHandler = function (data) {
+    // создание карточек
     var card = document.querySelector('#card').content.querySelector('.map__card');
     card.classList.add('hidden');
     for (var i = 0; i < data.length; i++) {
@@ -85,20 +69,31 @@
           if (parseInt(cards[index].style.left, 10) > 700) {
             cards[index].style.left = parseInt(cards[index].style.left, 10) - 600 + 'px';
           }
+
+
           cards[index].querySelector('.popup__close').setAttribute('tabindex', '0');
-          var pinClickHiddenHandler = function () {
-            cards[index].classList.add('hidden');
-            for (var y = 0; y < pins.length; y++) {
-              if (pins[y].classList.contains('map__pin--active')) {
-                pins[y].classList.remove('map__pin--active');
-              }
-            }
-          };
+
           cards[index].querySelector('.popup__close').addEventListener('click', pinClickHiddenHandler);
         };
-        elem.addEventListener('click', pinClickShowHandler);
+        var pinClickHiddenHandler = function () {
+          cards[index].classList.add('hidden');
+          for (var y = 0; y < pins.length; y++) {
+            if (pins[y].classList.contains('map__pin--active')) {
+              pins[y].classList.remove('map__pin--active');
+            }
+          }
+        };
+        //elem.addEventListener('click', pinClickShowHandler);
+        for (var i = 0; i < cards.length; i++) {
+          if (!cards[i].classList.contains('hidden')) {
+            cards[i].classList.add('hidden');
+          } else {
+            elem.addEventListener('click', pinClickShowHandler);
+          }
+        }
 
       });
+
     }
     pinClickAndPressHandler();
   };
@@ -110,4 +105,5 @@
   // console.log(document.querySelectorAll('.map__card'))
   window.backend.load(successHandler, errorHandler);
   // makeCards();
+
 })();
