@@ -147,96 +147,96 @@
   //   }
   // });
 
-  // фильтрация цены
-  var priceFilter = document.querySelector('#housing-price');
-  priceFilter.addEventListener('change', function () {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    var cards = document.querySelectorAll('.map__card');
+  // // фильтрация цены
+  // var priceFilter = document.querySelector('#housing-price');
+  // priceFilter.addEventListener('change', function () {
+  //   var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  //   var cards = document.querySelectorAll('.map__card');
 
-    switch(priceFilter.value) {
-      case 'any':
-        // массив отфильтрованных элементов
-        for (var a = 0; a < pins.length; a++) {
-          if (a < window.globalValues.MAX_AMOUNT_OF_PINS) {
-            pins[a].style.visibility = 'visible';
-            cards[a].style.visibility = 'visible';
-          } else {
-            pins[a].style.visibility = 'hidden';
-            cards[a].style.visibility = 'hidden';
-          }
-        }
-        break;
+  //   switch(priceFilter.value) {
+  //     case 'any':
+  //       // массив отфильтрованных элементов
+  //       for (var a = 0; a < pins.length; a++) {
+  //         if (a < window.globalValues.MAX_AMOUNT_OF_PINS) {
+  //           pins[a].style.visibility = 'visible';
+  //           cards[a].style.visibility = 'visible';
+  //         } else {
+  //           pins[a].style.visibility = 'hidden';
+  //           cards[a].style.visibility = 'hidden';
+  //         }
+  //       }
+  //       break;
 
-      case 'middle':
-        // массив отфильтрованных элементов
-        var middleCards = [];
-        console.log(cards);
-        cards.forEach(function (item, index) {
-          var cardPrice = item.querySelector('.popup__text--price').textContent;
-          if (+cardPrice >= 10000 && +cardPrice <= 50000) {
-            cards[index].style.visibility = 'visible';
-            pins[index].style.visibility = 'visible';
-            middleCards.push(pins[index]);
-          } else {
-            cards[index].style.visibility = 'hidden';
-            pins[index].style.visibility = 'hidden';
-          }
-        });
+  //     case 'middle':
+  //       // массив отфильтрованных элементов
+  //       var middleCards = [];
+  //       console.log(cards);
+  //       cards.forEach(function (item, index) {
+  //         var cardPrice = item.querySelector('.popup__text--price').textContent;
+  //         if (+cardPrice >= 10000 && +cardPrice <= 50000) {
+  //           cards[index].style.visibility = 'visible';
+  //           pins[index].style.visibility = 'visible';
+  //           middleCards.push(pins[index]);
+  //         } else {
+  //           cards[index].style.visibility = 'hidden';
+  //           pins[index].style.visibility = 'hidden';
+  //         }
+  //       });
 
-        // если отфильтрованных элементов больше 5, скрыть последующие
-        if (middleCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
-          for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
-            cards[index].style.visibility = 'visible';
-            pins[index].style.visibility = 'visible';
-          }
-        }
-        break;
+  //       // если отфильтрованных элементов больше 5, скрыть последующие
+  //       if (middleCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+  //         for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
+  //           cards[index].style.visibility = 'visible';
+  //           pins[index].style.visibility = 'visible';
+  //         }
+  //       }
+  //       break;
 
-      case 'low':
-        var lowCards = [];
-        cards.forEach(function (item, index) {
-          var cardPrice = item.querySelector('.popup__text--price').textContent;
-          if (+cardPrice <= 10000) {
-            cards[index].style.visibility = 'visible';
-            pins[index].style.visibility = 'visible';
-            lowCards.push(pins[index])
-          } else {
-            cards[index].style.visibility = 'hidden';
-            pins[index].style.visibility = 'hidden';
-          }
-        });
-        // если отфильтрованных элементов больше 5, скрыть последующие
-        if (lowCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
-          for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
-            cards[index].style.visibility = 'visible';
-            pins[index].style.visibility = 'visible';
-          }
-        }
-        break;
+  //     case 'low':
+  //       var lowCards = [];
+  //       cards.forEach(function (item, index) {
+  //         var cardPrice = item.querySelector('.popup__text--price').textContent;
+  //         if (+cardPrice <= 10000) {
+  //           cards[index].style.visibility = 'visible';
+  //           pins[index].style.visibility = 'visible';
+  //           lowCards.push(pins[index])
+  //         } else {
+  //           cards[index].style.visibility = 'hidden';
+  //           pins[index].style.visibility = 'hidden';
+  //         }
+  //       });
+  //       // если отфильтрованных элементов больше 5, скрыть последующие
+  //       if (lowCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+  //         for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
+  //           cards[index].style.visibility = 'visible';
+  //           pins[index].style.visibility = 'visible';
+  //         }
+  //       }
+  //       break;
 
-      case 'high':
-        var highCards = [];
-        cards.forEach(function (item, index) {
-          var cardPrice = item.querySelector('.popup__text--price').textContent;
-          if (+cardPrice > 50000) {
-            cards[index].style.visibility = 'visible';
-            pins[index].style.visibility = 'visible';
-            highCards.push(pins[index]);
-          } else {
-            cards[index].style.visibility = 'hidden';
-            pins[index].style.visibility = 'hidden';
-          }
-        });
-        // если отфильтрованных элементов больше 5, скрыть последующие
-        if (highCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
-          for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
-            cards[index].style.visibility = 'visible';
-            pins[index].style.visibility = 'visible';
-          }
-        }
-        break;
-    }
-  });
+  //     case 'high':
+  //       var highCards = [];
+  //       cards.forEach(function (item, index) {
+  //         var cardPrice = item.querySelector('.popup__text--price').textContent;
+  //         if (+cardPrice > 50000) {
+  //           cards[index].style.visibility = 'visible';
+  //           pins[index].style.visibility = 'visible';
+  //           highCards.push(pins[index]);
+  //         } else {
+  //           cards[index].style.visibility = 'hidden';
+  //           pins[index].style.visibility = 'hidden';
+  //         }
+  //       });
+  //       // если отфильтрованных элементов больше 5, скрыть последующие
+  //       if (highCards.length > window.globalValues.MAX_AMOUNT_OF_PINS) {
+  //         for (var c = 0; c < window.globalValues.MAX_AMOUNT_OF_PINS; c++) {
+  //           cards[index].style.visibility = 'visible';
+  //           pins[index].style.visibility = 'visible';
+  //         }
+  //       }
+  //       break;
+  //   }
+  // });
 
   // фильтрация комнат
   var roomFilter = document.querySelector('#housing-rooms');
@@ -631,13 +631,22 @@
       } else {
         pins[index].style.visibility = 'hidden';
       }
+
     }
 
     var filterPrice = function(elem, index) {
-      
+      //console.log(parseInt(document.querySelector('.popup__text--price').textContent));
+      var price = parseInt(cards[index].querySelector('.popup__text--price').textContent);
+      var priceSelect = document.querySelector('#housing-price').value;
+      if (price > 50000) {
+        pins[index].style.visibility = 'visible';
+      } else {
+        pins[index].style.visibility = 'hidden';
+      }
     }
-    var flats = pins.filter(filterType);
-
+    //filterPrice();
+    // var accomodations = pins.filter(filterType).filter(filterPrice);
+    pins.filter(filterPrice);
 
   });
 
