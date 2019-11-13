@@ -645,7 +645,7 @@
       }
     }
     //filterPrice();
-    // var accomodations = pins.filter(filterType).filter(filterPrice);
+    pins.filter(filterType);//.filter(filterPrice);
     pins.filter(filterPrice);
 
   });
