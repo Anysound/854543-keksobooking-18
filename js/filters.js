@@ -622,34 +622,57 @@
   filters.addEventListener('change', function () {
     var cards = Array.from(document.querySelectorAll('.map__card'));
     var pins = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
+    var typeValue = filters.querySelector('#housing-type').value;
+    var priceValue = filters.querySelector('#housing-price').value;
 
+    // var pinsArr = [];
     var filterType = function(elem, index) {
-      if (cards[index].querySelector('.popup__type').textContent === document.querySelector('#housing-type').value) {
-          
-        pins[index].style.visibility = 'visible';
-        return elem;
-      } else {
-        pins[index].style.visibility = 'hidden';
-      }
+      var type = cards[index].querySelector('.popup__type').textContent;
 
+      if (type === typeValue) {
+        // pins[index].style.visibility = 'visible';
+        console.log(type);
+        return elem;
+        
+      } else {
+        var anyPins = pins.slice(0, 5);
+        // console.log(anyPins);
+        anyPins.forEach(function(elem, index) {
+         // elem.style.visibility = 'visible';
+        })
+      }
     }
 
     var filterPrice = function(elem, index) {
       //console.log(parseInt(document.querySelector('.popup__text--price').textContent));
       var price = parseInt(cards[index].querySelector('.popup__text--price').textContent);
-      var priceSelect = document.querySelector('#housing-price').value;
-      if (price > 50000) {
-        pins[index].style.visibility = 'visible';
-      } else {
-        pins[index].style.visibility = 'hidden';
+      console.log(price + ' ' + priceValue);
+      if (priceValue === 'any') {
+        var anyPins = pins.slice(0, 5);
+        anyPins.forEach(function(elem, index) {
+          // elem.style.visibility = 'visible';
+        })
+      } else if (price < 10000 && priceValue === 'low') {
+        // pinsArr[index].style.visibility = 'hidden';
+        console.log('low from filterPrice')
+        return elem;
+      } else if ((price <= 10000 && price <= 50000) && priceValue === 'middle') {
+        console.log('middle from filterPrice')
+        return elem;
+      } else if (price >= 50000  && priceValue === 'high') {
+        console.log('high from filterPrice')
+        return elem;
       }
     }
     //filterPrice();
-    // var accomodations = pins.filter(filterType).filter(filterPrice);
-    pins.filter(filterPrice);
+    var accs = cards.filter(filterType).filter(filterPrice);
+    console.log(accs);
+    for (var i = 0; i < accs.length; i++) {
+      pins[i].style.visibility = 'visible';
+    }
+    //accs.filter(filterPrice).filter(filterPrice);
 
   });
-
 })();
 // for (var i = 0; i < cards.length; i++) {
 //   if (cards[i].querySelector('.popup__type')) {
