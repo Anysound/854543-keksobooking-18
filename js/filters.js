@@ -726,6 +726,9 @@
       }
 
       var cardFeatures = elem.querySelector('.popup__features').textContent.split(',');
+      cardFeatures.forEach(function (item, i) {
+
+      })
       console.log(selected + ' ' + cardFeatures);
 
       // if (features.querySelector('.map__checkbox:checked')) {
@@ -744,17 +747,17 @@
     cards.filter(filterFeatures);
 
 
-    // var accs = cards.filter(filterType)
-    // .filter(filterPrice)
-    // .filter(filterRoom)
-    // .filter(filterGuest)
-    // .filter(filterFeatures)
-    // .slice(0, 5);
+    var accs = cards.filter(filterType)
+    .filter(filterPrice)
+    .filter(filterRoom)
+    .filter(filterGuest)
+    .filter(filterFeatures)
+    .slice(0, 5);
     // console.log(accs);
-    // for (var i = 0; i < accs.length; i++) {
-    //   console.log(accs[i].querySelector('.popup__text--price').textContent + ' ' + accs[i].querySelector('.popup__type').textContent + ' ' + accs[i].querySelector('.popup__text--capacity').textContent + ' ' + accs[i].querySelector('.popup__features').textContent);
+    for (var i = 0; i < accs.length; i++) {
+      console.log(accs[i].querySelector('.popup__text--price').textContent + ' ' + accs[i].querySelector('.popup__type').textContent + ' ' + accs[i].querySelector('.popup__text--capacity').textContent + ' ' + accs[i].querySelector('.popup__features').textContent);
 
-    // }
+    }
 
     // accs.filter(filterPrice).filter(filterPrice);
 
