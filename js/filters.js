@@ -709,21 +709,29 @@
 
     var filterFeatures = function(elem, index) {
       var features = filters.querySelector('#housing-features');
-
-      var wifi = features.querySelector('.map__feature--wifi');
-      var dishwasher = features.querySelector('.map__feature--dishwasher');
-      var parking = features.querySelector('.map__feature--parking');
-      var washer = features.querySelector('.map__feature--washer');
-      var elevator = features.querySelector('.map__feature--elevator');
-      var conditioner = features.querySelector('.map__feature--conditioner');
+      var selected = [];
+      var wifi = features.querySelector('#filter-wifi:checked');
+      var dishwasher = features.querySelector('#filter-dishwasher:checked');
+      var parking = features.querySelector('#filter-parking:checked');
+      var washer = features.querySelector('#filter-washer:checked');
+      var elevator = features.querySelector('#filter-elevator:checked');
+      var conditioner = features.querySelector('#filter-conditioner:checked');
       var featuresList = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-      var cardFeatures = elem.querySelector('.popup__features').textContent.split(',');
-      console.log(cardFeatures);
-      var valuedButtons = [];
-      if (features.querySelector('.map__checkbox:checked')) {
-        valuedButtons.push(features.querySelector('.map__checkbox:checked'));
-        console.log(valuedButtons);
+      var buttons = [wifi, dishwasher, parking, washer, elevator, conditioner];
+      
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i]) {
+          selected.push(buttons[i].value);
+        } 
       }
+
+      var cardFeatures = elem.querySelector('.popup__features').textContent.split(',');
+      console.log(selected + ' ' + cardFeatures);
+
+      // if (features.querySelector('.map__checkbox:checked')) {
+      //   valuedButtons.push(features.querySelector('.map__checkbox:checked'));
+      //   console.log(valuedButtons);
+      // }
       // var checkF = function(item, index) {
       //   if (item === 'wifi' && item === 'washer') {
       //     return item;
@@ -733,19 +741,20 @@
       //   return elem;
       // }
     }
+    cards.filter(filterFeatures);
 
 
-    var accs = cards.filter(filterType)
-    .filter(filterPrice)
-    .filter(filterRoom)
-    .filter(filterGuest)
-    .filter(filterFeatures)
-    .slice(0, 5);
-    console.log(accs);
-    for (var i = 0; i < accs.length; i++) {
-      console.log(accs[i].querySelector('.popup__text--price').textContent + ' ' + accs[i].querySelector('.popup__type').textContent + ' ' + accs[i].querySelector('.popup__text--capacity').textContent + ' ' + accs[i].querySelector('.popup__features').textContent);
+    // var accs = cards.filter(filterType)
+    // .filter(filterPrice)
+    // .filter(filterRoom)
+    // .filter(filterGuest)
+    // .filter(filterFeatures)
+    // .slice(0, 5);
+    // console.log(accs);
+    // for (var i = 0; i < accs.length; i++) {
+    //   console.log(accs[i].querySelector('.popup__text--price').textContent + ' ' + accs[i].querySelector('.popup__type').textContent + ' ' + accs[i].querySelector('.popup__text--capacity').textContent + ' ' + accs[i].querySelector('.popup__features').textContent);
 
-    }
+    // }
 
     // accs.filter(filterPrice).filter(filterPrice);
 
