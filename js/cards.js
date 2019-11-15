@@ -26,10 +26,19 @@
         card.querySelector('.popup__type').style.display = 'none';
       }
       card.querySelector('.popup__type').textContent = data[i].offer.type;
+
       if (!data[i].offer.rooms) {
-        card.querySelector('.popup__text--capacity')
+        card.querySelector('.popup__text--capacity').textContent = data[i].offer.guests;
+      }
+      if (!data[i].offer.guests) {
+        card.querySelector('.popup__text--capacity').textContent = data[i].offer.rooms;
+      }
+      if (!data[i].offer.rooms && !data[i].offer.guests) {
+        card.querySelector('.popup__text--capacity').style.display = 'none';
       }
       card.querySelector('.popup__text--capacity').textContent = 'количество комнат: ' + data[i].offer.rooms + ' количество гостей: ' + data[i].offer.guests;
+
+      if (data[i].offer.checkin)
       card.querySelector('.popup__text--time').textContent = 'Заезд после ' + data[i].offer.checkin + ', выезд до ' + data[i].offer.checkout;
       card.querySelector('.popup__features').textContent = data[i].offer.features;
       card.querySelector('.popup__description').textContent = data[i].offer.description;
