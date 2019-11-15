@@ -622,7 +622,11 @@
   filters.addEventListener('change', function () {
     var cards = Array.from(document.querySelectorAll('.map__card'));
     var pins = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
-    
+    for (var i = 0; i < cards.length; i++) {
+      if (!cards[i].classList.contains('hidden')) {
+        cards[i].classList.add('hidden');
+      }
+    }
     var priceValue = filters.querySelector('#housing-price').value;
     var typeValue = filters.querySelector('#housing-type').value;
     var roomValue = filters.querySelector('#housing-rooms').value;
@@ -718,18 +722,40 @@
       var conditioner = features.querySelector('#filter-conditioner:checked');
       var featuresList = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
       var buttons = [wifi, dishwasher, parking, washer, elevator, conditioner];
-      
+      // проверка нажатых кнопок
       for (var i = 0; i < buttons.length; i++) {
         if (buttons[i]) {
           selected.push(buttons[i].value);
         } 
       }
-
+      
+      // массив из удобств в объявлении
       var cardFeatures = elem.querySelector('.popup__features').textContent.split(',');
-      cardFeatures.forEach(function (item, i) {
+        var similarFeatures = [];
+        // добавление в отдельный массив совпадающих элементов
+        for (var i = 0; i < selected.length; i++) {
+          if (cardFeatures.indexOf(selected[i]) !== -1) {
+            similarFeatures.push(selected[i]);  
+          }
+        }
+        console.log(similarFeatures);
+        var sum = 0;
+        if (similarFeatures.length === selected.length) {
+          for (var i = 0; i < similarFeatures.length; i++) {
+            if (similarFeatures[i] === selected[i]) {
+              sum++;
+            }
+          }
 
-      })
-      console.log(selected + ' ' + cardFeatures);
+          if (sum === similarFeatures.length) {
+            return elem;
+          };
+        }
+
+        // console.log(similarFeatures.length + ' ' + selected.length);
+
+      
+      //console.log(selected);
 
       // if (features.querySelector('.map__checkbox:checked')) {
       //   valuedButtons.push(features.querySelector('.map__checkbox:checked'));
@@ -744,7 +770,10 @@
       //   return elem;
       // }
     }
-    cards.filter(filterFeatures);
+    // var res = cards.filter(filterFeatures);
+    // res.forEach(function(elem, i) {
+    //   console.log(elem.querySelector('.popup__features').textContent);
+    // });
 
 
     var accs = cards.filter(filterType)
@@ -753,10 +782,11 @@
     .filter(filterGuest)
     .filter(filterFeatures)
     .slice(0, 5);
+
     // console.log(accs);
     for (var i = 0; i < accs.length; i++) {
+      pins[i].style.visibility = 'visible';
       console.log(accs[i].querySelector('.popup__text--price').textContent + ' ' + accs[i].querySelector('.popup__type').textContent + ' ' + accs[i].querySelector('.popup__text--capacity').textContent + ' ' + accs[i].querySelector('.popup__features').textContent);
-
     }
 
     // accs.filter(filterPrice).filter(filterPrice);

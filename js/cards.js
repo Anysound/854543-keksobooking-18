@@ -41,7 +41,7 @@
         elem.style.visibility = 'hidden';
         elem.setAttribute('tabindex', '0');
         elem.addEventListener('click', function () {
-          elem.classList.add('map__pin--active');
+          //elem.classList.add('map__pin--active');
         });
         var pinPressShowHandler = function (evt2) {
           if (evt2.keyCode === window.globalValues.ENTER_KEYCODE) {
@@ -58,7 +58,17 @@
         elem.addEventListener('keydown', pinPressHideHandler);
 
         var pinClickShowHandler = function (evt) {
-          cards[index].classList.remove('hidden');
+          for (var i = 0; i < cards.length; i++) {
+            if (cards[index].classList.contains('hidden')) {
+              cards[index].classList.remove('hidden');
+              cards[i].classList.add('hidden');
+              elem.classList.add('map__pin--active');
+            } else {
+              cards[i].classList.add('hidden');
+              //pins[index].classList.remove('map__pin--active');
+            }
+          }
+          //cards[index].classList.remove('hidden');
           cards[index].style.top = evt.clientY + 'px';
           cards[index].style.left = evt.clientX + 'px';
           // если карточка вылезает вниз, разместить ее повыше
