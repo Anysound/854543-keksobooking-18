@@ -622,6 +622,13 @@
   filters.addEventListener('change', function () {
     var cards = Array.from(document.querySelectorAll('.map__card'));
     var pins = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
+    var cardsPins = {};
+    for (var i = 0; i < pins.length; i++) {
+      cardsPins[pins[i]] = cards[i];
+    }
+
+    console.log(cardsPins);
+ 
     for (var i = 0; i < cards.length; i++) {
       if (!cards[i].classList.contains('hidden')) {
         cards[i].classList.add('hidden');
@@ -774,7 +781,9 @@
     // res.forEach(function(elem, i) {
     //   console.log(elem.querySelector('.popup__features').textContent);
     // });
+    pins.forEach(function(elem, i) {
 
+    })
 
     var accs = cards.filter(filterType)
     .filter(filterPrice)
@@ -786,20 +795,10 @@
     // console.log(accs);
     for (var i = 0; i < accs.length; i++) {
       pins[i].style.visibility = 'visible';
-      console.log(accs[i].querySelector('.popup__text--price').textContent + ' ' + accs[i].querySelector('.popup__type').textContent + ' ' + accs[i].querySelector('.popup__text--capacity').textContent + ' ' + accs[i].querySelector('.popup__features').textContent);
+      console.log(accs[i] + ' ' + accs[i].querySelector('.popup__text--price').textContent + ' ' + accs[i].querySelector('.popup__type').textContent + ' ' + accs[i].querySelector('.popup__text--capacity').textContent + ' ' + accs[i].querySelector('.popup__features').textContent);
     }
 
     // accs.filter(filterPrice).filter(filterPrice);
 
   });
 })();
-// for (var i = 0; i < cards.length; i++) {
-//   if (cards[i].querySelector('.popup__type')) {
-//     cards[i].style.visibility = 'visible';
-//     pins[i].style.visibility = 'visible';
-//     anyCards.push(pins[i]);
-//   } else {
-//     cards[i].style.visibility = 'visible';
-//     pins[i].style.visibility = 'visible';
-//   }
-// }
