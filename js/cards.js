@@ -32,15 +32,15 @@
       }
 
       if (!isFinite(data[i].offer.rooms)) {
-        cloneCard.querySelector('.popup__text--capacity').textContent = ' количество гостей: ' + data[i].offer.guests;
+        cloneCard.querySelector('.popup__text--capacity').textContent = 'Количество гостей: ' + data[i].offer.guests;
       } else {
-        cloneCard.querySelector('.popup__text--capacity').textContent = ' количество гостей: ' + data[i].offer.guests + ' количество комнат: ' + data[i].offer.rooms;
+        cloneCard.querySelector('.popup__text--capacity').textContent = 'Количество комнат: ' + data[i].offer.rooms + ' количество гостей: ' + data[i].offer.guests;
       }
 
       if (!isFinite(data[i].offer.guests)) {
-        cloneCard.querySelector('.popup__text--capacity').textContent = ' количество комнат: ' + data[i].offer.rooms;
+        cloneCard.querySelector('.popup__text--capacity').textContent = 'Количество комнат: ' + data[i].offer.rooms;
       } else {
-        cloneCard.querySelector('.popup__text--capacity').textContent = ' количество гостей: ' + data[i].offer.guests + ' количество комнат: ' + data[i].offer.rooms;
+        cloneCard.querySelector('.popup__text--capacity').textContent = 'Количество комнат: ' + data[i].offer.rooms + ' количество гостей: ' + data[i].offer.guests;
       }
 
       if (!data[i].offer.checkin) {
