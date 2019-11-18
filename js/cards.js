@@ -8,7 +8,7 @@
       cloneCard.classList.add('hidden');
       
       var title = cloneCard.querySelector('.popup__title');
-      data[i].offer.title ? title.textContent = data[i].offer.title : title.style.display = 'none';
+      (data[i].offer.title ? title.textContent = data[i].offer.title : title.style.display = 'none');
 
       var address = cloneCard.querySelector('.popup__text--address');
       data[i].offer.address ? address.textContent = data[i].offer.address :
