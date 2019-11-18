@@ -57,7 +57,6 @@
         };
         mainPin.addEventListener('click', clickPreventDefaultHandler);
       }
-
     };
 
     document.addEventListener('mousemove', mainPinMousemoveHandler);

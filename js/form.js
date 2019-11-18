@@ -7,10 +7,16 @@
 
   // валидация
   var form = document.querySelector('.ad-form');
-  var selectRoomAmount = form.querySelector('#room_number');
-  var selectGuestAmount = form.querySelector('#capacity');
 
   // валидация полей с числом гостей и комнат
+  var selectRoomAmount = form.querySelector('#room_number');
+  var selectGuestAmount = form.querySelector('#capacity');
+  // изначальное блокирование неподходящих вариантов
+  if (selectRoomAmount.value === '1') {
+    selectGuestAmount[0].setAttribute('disabled', '');
+    selectGuestAmount[1].setAttribute('disabled', '');
+    selectGuestAmount[3].setAttribute('disabled', '');
+  }
   function selectValidHandler() {
     var HashAmountOfRooms = {
       amountOfRooms: selectRoomAmount.value,
@@ -52,24 +58,21 @@
         break;
     }
   }
+
   selectRoomAmount.addEventListener('change', selectValidHandler);
-  
-  if (selectRoomAmount.value === '1') {
-    selectGuestAmount[0].setAttribute('disabled', '');
-    selectGuestAmount[1].setAttribute('disabled', '');
-    selectGuestAmount[3].setAttribute('disabled', '');
-  }
+
   // валидация названия
   var title = form.querySelector('#title');
   title.setAttribute('minlength', '30');
   title.setAttribute('maxlength', '100');
   title.addEventListener('invalid', function () {
     if (title.validity.tooShort) {
-      title.setCustomValidity('слишком короткое значение, мин.длина - 30 символов');
+      title.setCustomValidity('слишком короткое название, мин.длина - 30 символов');
     } else {
       title.setCustomValidity('');
     }
   });
+
   // валидация цены при разных типах жилья
   var selectType = form.querySelector('#type');
   var price = form.querySelector('#price');
@@ -91,10 +94,9 @@
     }
   }
   selectType.addEventListener('change', houseTypeHandler);
+
   // валидация поля адреса
   form.querySelector('#address').setAttribute('readonly', '');
-
-
 
   // валидация времени
   var timeIn = form.querySelector('#timein');
@@ -109,9 +111,9 @@
     }
   });
 
+  // отправка формы
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    // formValidHandler();
     var successHandler = function () {
       var successTemplate = document.querySelector('#success').content.querySelector('.success');
       document.querySelector('main').appendChild(successTemplate);
@@ -166,26 +168,32 @@
 
     window.backend.save(new FormData(form), successHandler, errorHandler);
   });
-  // фиксация в адресе текущее положение главной метки
-  form.querySelector('.ad-form__reset').addEventListener('click', function() {
-    setTimeout(function() {
+
+  // ресет формы
+  form.querySelector('.ad-form__reset').addEventListener('click', function () {
+    // фиксация в адресе текущее положение главной метки
+    setTimeout(function () {
       document.querySelector('#address').value = (parseInt(document.querySelector('.map__pin--main').style.top, 10) + window.globalValues.CENTER_OF_PIN + 'px') + ' ' +
-      (parseInt(document.querySelector('.map__pin--main').style.left, 10) + window.globalValues.CENTER_OF_PIN + 'px'); 
+      (parseInt(document.querySelector('.map__pin--main').style.left, 10) + window.globalValues.CENTER_OF_PIN + 'px');
     }, 50);
     // сброс фильтров
     document.querySelector('.map__filters').reset();
     // открытые карточки закрываются
     var cards = document.querySelectorAll('.map__card');
-    cards.forEach(function(item, index) {
+    cards.forEach(function (item) {
       if (!item.classList.contains('hidden')) {
         item.classList.add('hidden');
       }
     });
     // удаление меток похожих объявлений и показ меток любых объявлений
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    pins.forEach(function(item, index) {
+    pins.forEach(function (item, index) {
       item.style.visibility = 'hidden';
-      index >= window.globalValues.MAX_AMOUNT_OF_PINS ? item.style.visibility = 'visible' : item.style.visibility = 'hidden';
-    })
-  })
+      item.style.visibility = (index < 5) ? 'visible' : 'hidden';
+
+      if (pins[index].classList.contains('map__pin--active')) {
+        item.classList.remove('map__pin--active');
+      }
+    });
+  });
 })();
