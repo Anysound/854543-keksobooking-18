@@ -1,8 +1,8 @@
 'use strict';
 (function () {
   // отключение полей
-  for (var x = 0; x < window.globalValues.inputs.length; x++) {
-    window.globalValues.inputs[x].setAttribute('disabled', '');
+  for (var x = 0; x < document.querySelector('.ad-form').children.length; x++) {
+    document.querySelector('.ad-form').children[x].setAttribute('disabled', '');
   }
 
   // валидация
@@ -10,7 +10,7 @@
   var selectRoomAmount = form.querySelector('#room_number');
   var selectGuestAmount = form.querySelector('#capacity');
 
-  // валидатор комнат
+  // валидация полей с числом гостей и комнат
   function selectValidHandler() {
     var HashAmountOfRooms = {
       amountOfRooms: selectRoomAmount.value,
@@ -52,30 +52,8 @@
         break;
     }
   }
-  // валидатор формы
-  function formValidHandler() {
-    // валидация названия
-    var title = form.querySelector('#title');
-    title.setAttribute('minlength', '30');
-    title.setAttribute('maxlength', '100');
-    title.addEventListener('invalid', function () {
-      if (title.validity.tooShort) {
-        title.setCustomValidity('слишком короткое значение, мин.длина - 30 символов');
-      } else {
-        title.setCustomValidity('');
-      }
-    });
-
-    //     title.addEventListener('change', function () {
-    //   if (title.value.length < title.minlength) {
-    //     title.setCustomValidity('слишком короткое значение, мин.длина - 30 символов');
-    //     console.log(true);
-    //   } else {
-    //     title.setCustomValidity('');
-    //   }
-    // });
-  }
-  // валидация полей с числом гостей и комнат
+  selectRoomAmount.addEventListener('change', selectValidHandler);
+  
   if (selectRoomAmount.value === '1') {
     selectGuestAmount[0].setAttribute('disabled', '');
     selectGuestAmount[1].setAttribute('disabled', '');
@@ -92,10 +70,10 @@
       title.setCustomValidity('');
     }
   });
-
   // валидация цены при разных типах жилья
   var selectType = form.querySelector('#type');
   var price = form.querySelector('#price');
+  price.setAttribute('placeholder', '0');
   function houseTypeHandler() {
     var houseType = selectType.value;
     if (houseType === 'bungalo') {
@@ -112,21 +90,11 @@
       price.setAttribute('min', '10000');
     }
   }
-
-  if (selectType.value === 'bungalo') {
-    price.setAttribute('placeholder', '0');
-  }
-
+  selectType.addEventListener('change', houseTypeHandler);
   // валидация поля адреса
   form.querySelector('#address').setAttribute('readonly', '');
 
-  selectRoomAmount.addEventListener('change', selectValidHandler);
-  selectType.addEventListener('change', houseTypeHandler);
 
-  form.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    formValidHandler();
-  });
 
   // валидация времени
   var timeIn = form.querySelector('#timein');
@@ -143,6 +111,7 @@
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
+    // formValidHandler();
     var successHandler = function () {
       var successTemplate = document.querySelector('#success').content.querySelector('.success');
       document.querySelector('main').appendChild(successTemplate);
@@ -193,16 +162,30 @@
           errorTemplate.remove();
         }
       });
-      // document.addEventListener('click', function() {
-      //   successTemplate.style.display = 'none';
-      // });
-      // document.addEventListener('keydown', function(evt) {
-      //   if (evt.keyCode === window.globalValues.ESC_KEYCODE) {
-      //     successTemplate.style.display = 'none';
-      //   }
-      // });
     };
 
     window.backend.save(new FormData(form), successHandler, errorHandler);
   });
+  // фиксация в адресе текущее положение главной метки
+  form.querySelector('.ad-form__reset').addEventListener('click', function() {
+    setTimeout(function() {
+      document.querySelector('#address').value = (parseInt(document.querySelector('.map__pin--main').style.top, 10) + window.globalValues.CENTER_OF_PIN + 'px') + ' ' +
+      (parseInt(document.querySelector('.map__pin--main').style.left, 10) + window.globalValues.CENTER_OF_PIN + 'px'); 
+    }, 50);
+    // сброс фильтров
+    document.querySelector('.map__filters').reset();
+    // открытые карточки закрываются
+    var cards = document.querySelectorAll('.map__card');
+    cards.forEach(function(item, index) {
+      if (!item.classList.contains('hidden')) {
+        item.classList.add('hidden');
+      }
+    });
+    // удаление меток похожих объявлений и показ меток любых объявлений
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function(item, index) {
+      item.style.visibility = 'hidden';
+      index >= window.globalValues.MAX_AMOUNT_OF_PINS ? item.style.visibility = 'visible' : item.style.visibility = 'hidden';
+    })
+  })
 })();
