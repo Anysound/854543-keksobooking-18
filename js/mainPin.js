@@ -66,7 +66,7 @@
   });
 
   // переход в активное состояние
-  function pinMouseDownHandler() {
+  function mainPinMouseDownHandler() {
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 
@@ -86,12 +86,12 @@
     }
   }
 
-  function pinPressHandler(evt) {
+  function mainPinPressHandler(evt) {
     if (evt.keyCode === window.globalValues.ENTER_KEYCODE) {
       document.querySelector('.map').classList.remove('map--faded');
       var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
       for (var b = 0; b < pins.length; b++) {
-        pins[j].visibility = (j < 5) ? 'visible' : 'hidden';
+        pins[b].style.visibility = (b < 5) ? 'visible' : 'hidden';
       }
       document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 
@@ -101,8 +101,9 @@
     }
   }
 
-  mainPin.addEventListener('mousedown', pinMouseDownHandler);
-  mainPin.addEventListener('keydown', pinPressHandler);
+  mainPin.addEventListener('mousedown', mainPinMouseDownHandler);
+  mainPin.addEventListener('keydown', mainPinPressHandler);
+
   document.querySelector('#address').value = (parseInt(mainPin.style.top, 10) + window.globalValues.CENTER_OF_PIN + 'px') + ' ' +
     (parseInt(mainPin.style.left, 10) + window.globalValues.CENTER_OF_PIN + 'px');
 })();
