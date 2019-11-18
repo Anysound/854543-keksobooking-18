@@ -1,133 +1,157 @@
 'use strict';
 (function () {
   var filters = document.querySelector('.map__filters');
-  var type = filters.querySelector('#housing-type');
-  type.addEventListener('change', function () {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    var cards = document.querySelectorAll('.map__card');
+  var filtersInputs = document.querySelector('.map__filters').children;
+  // при неактивном состоянии форма фильтрации заблокирована
+  for (var i = 0; i < filtersInputs.length; i++) {
+    filtersInputs[i].setAttribute('disabled', '');
+  }
 
-    switch (type.value) {
+  function filterCards() {
+    var cards = Array.from(document.querySelectorAll('.map__card'));
+    var pins = Array.from(document.querySelectorAll('.map__pin:not(.map__pin--main)'));
+    var priceValue = filters.querySelector('#housing-price').value;
+    var typeValue = filters.querySelector('#housing-type').value;
+    var roomValue = filters.querySelector('#housing-rooms').value;
+    var guestValue = filters.querySelector('#housing-guests').value;
 
-      case 'any':
-        // массив отфильтрованных элементов
-        var anyCards = [];
-        for (var i = 0; i < cards.length; i++) {
-          if (cards[i].querySelector('.popup__type')) {
-            cards[i].style.visibility = 'visible';
-            pins[i].style.visibility = 'visible';
-            anyCards.push(pins[i]);
-          } else {
-            cards[i].style.visibility = 'visible';
-            pins[i].style.visibility = 'visible';
-          }
-        }
-        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var j = 0; j <= anyCards.length; j++) {
-          if (j < window.globalValues.MAX_AMOUNT_OF_PINS) {
-            anyCards[j].style.visibility = 'visible';
-          } else {
-            anyCards[j].style.visibility = 'hidden';
-          }
-        }
-        break;
-
-      case 'palace':
-        // массив отфильтрованных элементов
-        var palaceCards = [];
-        for (var a = 0; i < cards.length; a++) {
-          if (cards[a].querySelector('.popup__type').textContent !== 'palace') {
-            cards[a].style.visibility = 'hidden';
-            pins[a].style.visibility = 'hidden';
-          } else {
-            cards[a].style.visibility = 'visible';
-            pins[a].style.visibility = 'visible';
-            palaceCards.push(pins[a]);
-          }
-        }
-        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var b = 0; b < palaceCards.length; b++) {
-          if (b <= window.globalValues.MAX_AMOUNT_OF_PINS) {
-            palaceCards[b].style.visibility = 'visible';
-          } else {
-            palaceCards[b].style.visibility = 'hidden';
-          }
-        }
-        break;
-
-      case 'flat':
-        // массив отфильтрованных элементов
-        var flatCards = [];
-        for (var c = 0; c < cards.length; c++) {
-          if (cards[c].querySelector('.popup__type').textContent !== 'flat') {
-            cards[c].style.visibility = 'hidden';
-            pins[c].style.visibility = 'hidden';
-          } else {
-            cards[c].style.visibility = 'visible';
-            pins[c].style.visibility = 'visible';
-            flatCards.push(cards[c]);
-          }
-        }
-        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var d = 0; d < flatCards.length; d++) {
-          if (d <= window.globalValues.MAX_AMOUNT_OF_PINS) {
-            flatCards[d].style.visibility = 'visible';
-          } else {
-            flatCards[d].style.visibility = 'hidden';
-          }
-        }
-        break;
-
-      case 'house':
-        // массив отфильтрованных элементов
-        var houseCards = [];
-        for (var e = 0; e < cards.length; e++) {
-          if (cards[e].querySelector('.popup__type').textContent !== 'house') {
-            cards[e].style.visibility = 'hidden';
-            pins[e].style.visibility = 'hidden';
-          } else {
-            cards[e].style.visibility = 'visible';
-            pins[e].style.visibility = 'visible';
-            houseCards.push(pins[e]);
-          }
-        }
-        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var f = 0; f < houseCards.length; f++) {
-          if (f <= window.globalValues.MAX_AMOUNT_OF_PINS) {
-            houseCards[f].style.visibility = 'visible';
-          } else {
-            houseCards[f].style.visibility = 'hidden';
-          }
-        }
-        break;
-
-      case 'bungalo':
-        // массив отфильтрованных элементов
-        var bungaloCards = [];
-        for (var g = 0; g < cards.length; g++) {
-          if (cards[g].querySelector('.popup__type').textContent !== 'bungalo') {
-            cards[g].style.visibility = 'hidden';
-            pins[g].style.visibility = 'hidden';
-          } else {
-            cards[g].style.visibility = 'visible';
-            pins[g].style.visibility = 'visible';
-            bungaloCards.push(pins[g]);
-          }
-        }
-        // если отфильтрованных пинов больше 5,  вывод первых 5 пинов
-        for (var x = 0; x < bungaloCards.length; x++) {
-          if (x <= window.globalValues.MAX_AMOUNT_OF_PINS) {
-            bungaloCards[x].style.visibility = 'visible';
-          } else {
-            bungaloCards[x].style.visibility = 'hidden';
-          }
-        }
-        break;
-    }
-    // скрытие открытой карточки при смене фильтра
-    for (var y = 0; y < cards.length; y++) {
-      if (!cards[y].classList.contains('hidden')) {
-        cards[y].classList.add('hidden');
+    // при смене фильтров закрываем открытые объявления и скрываем пины
+    for (var a = 0; a < cards.length; a++) {
+      if (!cards[a].classList.contains('hidden')) {
+        cards[a].classList.add('hidden');
       }
     }
+
+    for (var b = 0; b < pins.length; b++) {
+      pins[b].style.visibility = 'hidden';
+    }
+
+    var filterType = function (elem, index) {
+      var type = cards[index].querySelector('.popup__type').textContent;
+
+      if (type === typeValue) {
+        return elem;
+      } else if (typeValue === 'any') {
+        return elem;
+      }
+      return null;
+    };
+
+    var filterPrice = function (elem) {
+      var price = parseInt(elem.querySelector('.popup__text--price').textContent, 10);
+
+      if (priceValue === 'any') {
+        return elem;
+      } else if (price < 10000 && priceValue === 'low') {
+        return elem;
+      } else if ((price >= 10000 && price <= 50000) && priceValue === 'middle') {
+        return elem;
+      } else if (price >= 50000 && priceValue === 'high') {
+        return elem;
+      }
+      return null;
+    };
+
+    var filterRoom = function (elem) {
+      var digits = []; // массив для цифр из текста с кол-вом гостей и комнат
+      var roomsAndGuestsAmount = elem.querySelector('.popup__text--capacity').textContent;
+      var words = roomsAndGuestsAmount.split(' ');
+
+      words.forEach(function (item, index) {
+        var num = parseInt(words[index], 10);
+        if (typeof num === 'number' && !isNaN(num)) {
+          digits.push(num);
+        }
+      });
+
+      var roomsAmount = digits[0]; // число комнат
+
+      if (parseInt(roomsAmount, 10) === parseInt(roomValue, 10)) {
+        return elem;
+      } else if (roomValue === 'any') {
+        return elem;
+      }
+      return null;
+    };
+
+    var filterGuest = function (elem) {
+      var digits = [];
+      var roomsAndGuestsAmount = elem.querySelector('.popup__text--capacity').textContent;
+      var words = roomsAndGuestsAmount.split(' ');
+
+      words.forEach(function (item, indx) {
+        var num = parseInt(words[indx], 10);
+        if (typeof num === 'number' && !isNaN(num)) {
+          digits.push(num);
+        }
+      });
+
+      var guestsAmount = digits[1]; // число гостей
+
+      if (parseInt(guestsAmount, 10) === parseInt(guestValue, 10)) {
+        return elem;
+      } else if (guestValue === 'any') {
+        return elem;
+      }
+      return null;
+    };
+
+    var filterFeatures = function (elem) {
+      var features = filters.querySelector('#housing-features');
+      var selectedFeatures = []; // массив выбранных удобств
+      var wifi = features.querySelector('#filter-wifi:checked');
+      var dishwasher = features.querySelector('#filter-dishwasher:checked');
+      var parking = features.querySelector('#filter-parking:checked');
+      var washer = features.querySelector('#filter-washer:checked');
+      var elevator = features.querySelector('#filter-elevator:checked');
+      var conditioner = features.querySelector('#filter-conditioner:checked');
+      var buttons = [wifi, dishwasher, parking, washer, elevator, conditioner];
+      // проверка нажатых кнопок-удобств и добавление в selectedFeatures
+      for (var f = 0; f < buttons.length; f++) {
+        if (buttons[f]) {
+          selectedFeatures.push(buttons[f].value);
+        }
+      }
+      // массив из удобств в карточке
+      var cardFeatures = elem.querySelector('.popup__features').textContent.split(',');
+      var matchingFeatures = []; // совпадающие элементы
+      // добавление в отдельный массив совпадающих элементов
+      for (var c = 0; c < selectedFeatures.length; c++) {
+        if (cardFeatures.indexOf(selectedFeatures[c]) !== -1) {
+          matchingFeatures.push(selectedFeatures[c]);
+        }
+      }
+      var counter = 0; // счетчик совпадающих удобств
+      // если длина массива совпадающих элементов равна длине массива выбранных удобств,
+      // счетчик считает кол-во совпадающих элементов, если значение счетчика равно
+      // длине совпадающих удобств, значит выбранные значения имеются в карточке и она возвращается.
+      if (matchingFeatures.length === selectedFeatures.length) {
+        for (var d = 0; d < matchingFeatures.length; d++) {
+          if (matchingFeatures[d] === selectedFeatures[d]) {
+            counter++;
+          }
+        }
+
+        if (counter === matchingFeatures.length) {
+          return elem;
+        }
+      }
+      return null;
+    };
+
+    var filteredCards = cards.filter(filterType)
+    .filter(filterPrice)
+    .filter(filterRoom)
+    .filter(filterGuest)
+    .filter(filterFeatures)
+    .slice(0, window.globalValues.MAX_AMOUNT_OF_PINS);
+
+    for (var e = 0; e < filteredCards.length; e++) {
+      document.querySelector('#pin_' + filteredCards[e].dataset.id).style.visibility = 'visible';
+    }
+  }
+  // устранение "дребезга"
+  filters.addEventListener('change', function () {
+    setTimeout(filterCards, window.globalValues.DEBOUNCE_INTERVAL);
   });
 })();

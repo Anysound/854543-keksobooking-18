@@ -7,7 +7,7 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
+        if (xhr.status === window.globalValues.SUCCESSFUL_HTTP_CODE) {
           loadHandler(xhr.response);
         } else {
           errorHandler();
@@ -22,7 +22,7 @@
         errorHandler('Запрос не успел выполниться');
       });
 
-      xhr.timeout = 10000;
+      xhr.timeout = window.globalValues.SERVER_TIMEOUT;
       xhr.open('GET', URL);
       xhr.send();
     },
@@ -33,9 +33,11 @@
       xhr.addEventListener('load', function () {
         successSaveHandler(xhr.response);
       });
+
       xhr.addEventListener('error', function () {
         errorSaveHandler();
       });
+
       xhr.open('POST', URL);
       xhr.send(data);
     }
