@@ -101,8 +101,8 @@
     }
   }
 
-  mainPin.addEventListener('mousedown', mainPinMouseDownHandler);
-  mainPin.addEventListener('keydown', mainPinPressHandler);
+  mainPin.addEventListener('mousedown', mainPinMouseDownHandler, true);
+  mainPin.addEventListener('keydown', mainPinPressHandler, true);
 
   document.querySelector('#address').value = (parseInt(mainPin.style.top, 10) + window.globalValues.CENTER_OF_PIN + 'px') + ' ' +
     (parseInt(mainPin.style.left, 10) + window.globalValues.CENTER_OF_PIN + 'px');
