@@ -27,7 +27,9 @@
     }
 
     var filterType = function (elem, index) {
+
       var type = cards[index].querySelector('.popup__type').getAttribute('value');
+
       if (type === typeValue) {
         return elem;
       } else if (typeValue === 'any') {
@@ -37,6 +39,7 @@
     };
 
     var filterPrice = function (elem) {
+
       var price = parseInt(elem.querySelector('.popup__text--price').textContent, 10);
 
       if (priceValue === 'any') {
@@ -52,6 +55,7 @@
     };
 
     var filterRoom = function (elem) {
+
       var digits = []; // массив для цифр из текста с кол-вом гостей и комнат
       var roomsAndGuestsAmount = elem.querySelector('.popup__text--capacity').textContent;
       var words = roomsAndGuestsAmount.split(' ');
@@ -96,6 +100,7 @@
     };
 
     var filterFeatures = function (elem) {
+
       var features = filters.querySelector('#housing-features');
       var selectedFeatures = []; // массив выбранных удобств
       var wifi = features.querySelector('#filter-wifi:checked');
@@ -105,12 +110,14 @@
       var elevator = features.querySelector('#filter-elevator:checked');
       var conditioner = features.querySelector('#filter-conditioner:checked');
       var buttons = [wifi, dishwasher, parking, washer, elevator, conditioner];
+
       // проверка нажатых кнопок-удобств и добавление в selectedFeatures
       for (var f = 0; f < buttons.length; f++) {
         if (buttons[f]) {
           selectedFeatures.push(buttons[f].value);
         }
       }
+
       // массив из удобств в карточке
       var cardFeatures = [];
       var words = elem.querySelector('.popup__features').children;

@@ -11,12 +11,14 @@
   // валидация полей с числом гостей и комнат
   var selectRoomAmount = form.querySelector('#room_number');
   var selectGuestAmount = form.querySelector('#capacity');
+
   // изначальное блокирование неподходящих вариантов
   if (selectRoomAmount.value === '1') {
     selectGuestAmount[0].setAttribute('disabled', '');
     selectGuestAmount[1].setAttribute('disabled', '');
     selectGuestAmount[3].setAttribute('disabled', '');
   }
+
   function selectValidHandler() {
     var HashAmountOfRooms = {
       amountOfRooms: selectRoomAmount.value,
@@ -24,19 +26,18 @@
     };
     switch (HashAmountOfRooms.amountOfRooms) {
       case '1':
-        for (var y = 0; y < selectGuestAmount.children.length; y++) {
-          if (HashAmountOfRooms.amountOfGuests !== selectGuestAmount[y].value) {
-            selectGuestAmount[y].setAttribute('disabled', '');
-          } else {
-            selectGuestAmount.value = '1';
-          }
-        }
+        selectGuestAmount[0].setAttribute('disabled', '');
+        selectGuestAmount[1].setAttribute('disabled', '');
+        selectGuestAmount[2].removeAttribute('disabled');
+        selectGuestAmount[3].setAttribute('disabled', '');
+        selectGuestAmount.value = '1';
         break;
       case '2':
         selectGuestAmount[0].setAttribute('disabled', '');
         selectGuestAmount[1].removeAttribute('disabled');
         selectGuestAmount[2].removeAttribute('disabled');
         selectGuestAmount[3].setAttribute('disabled', '');
+        selectGuestAmount.value = '2';
         break;
       case '3':
         for (var j = 0; j < selectGuestAmount.children.length; j++) {
@@ -44,6 +45,7 @@
             selectGuestAmount[j].setAttribute('disabled', '');
           } else {
             selectGuestAmount[j].removeAttribute('disabled');
+            selectGuestAmount.value = '3';
           }
         }
         break;
@@ -95,6 +97,7 @@
       price.setAttribute('min', '10000');
     }
   }
+
   selectType.addEventListener('change', houseTypeHandler);
 
   // валидация поля адреса
@@ -128,12 +131,16 @@
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
 
   form.addEventListener('submit', function (evt) {
+
     evt.preventDefault();
+
     var successHandler = function () {
       document.querySelector('main').appendChild(successTemplate);
+
       document.addEventListener('click', function () {
         successTemplate.remove();
       });
+
       document.addEventListener('keydown', function (evt2) {
         if (evt2.keyCode === window.globalValues.ESC_KEYCODE) {
           successTemplate.style.display = 'none';
@@ -141,11 +148,6 @@
       });
       // ресет формы
       form.reset();
-      // скрытие меток
-      var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      for (var i = 0; i < pins.length; i++) {
-        pins[i].style.display = 'none';
-      }
 
       // переход в неактивное состояние
       document.querySelector('#address').value = (parseInt(document.querySelector('.map__pin--main').style.top, 10) + 33 + 'px') + ' ' + (parseInt(document.querySelector('.map__pin--main').style.left, 10) + 33 + 'px');
@@ -153,6 +155,7 @@
       document.querySelector('.ad-form').classList.add('ad-form--disabled');
 
       var filtersInputs = document.querySelector('.map__filters').children;
+
       // при неактивном состоянии форма фильтрации заблокирована
       for (var a = 0; a < filtersInputs.length; a++) {
         filtersInputs[a].setAttribute('disabled', '');
@@ -162,13 +165,18 @@
       for (var j = 0; j < fieldsets.length; j++) {
         fieldsets[j].setAttribute('disabled', '');
       }
+
       // закрытие карточек
       var cards = document.querySelectorAll('.map__card');
       for (var z = 0; z < cards.length; z++) {
-        if (!cards[z].classList.contains('hidden')) {
-          cards[z].classList.add('hidden');
-        }
+        cards[z].remove();
       }
+
+      var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      for (var h = 0; h < pins.length; h++) {
+        pins[h].remove();
+      }
+
       // установка главной метки на первоначальное положение
       document.querySelector('.map__pin--main').style.left = '570px';
       document.querySelector('.map__pin--main').style.top = '375px';
@@ -176,10 +184,12 @@
 
     var errorHandler = function () {
       var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+
       document.querySelector('main').appendChild(errorTemplate);
       document.querySelector('.error__button').addEventListener('click', function () {
         errorTemplate.remove();
       });
+
       document.addEventListener('keydown', function (evt3) {
         if (evt3.keyCode === window.globalValues.ESC_KEYCODE) {
           errorTemplate.remove();
@@ -213,24 +223,20 @@
       document.querySelector('#address').value = (parseInt(document.querySelector('.map__pin--main').style.top, 10) + window.globalValues.CENTER_OF_PIN + 'px') + ' ' +
       (parseInt(document.querySelector('.map__pin--main').style.left, 10) + window.globalValues.CENTER_OF_PIN + 'px');
     }, 50);
+
     // сброс фильтров
     document.querySelector('.map__filters').reset();
+
     // открытые карточки закрываются
     var cards = document.querySelectorAll('.map__card');
-    cards.forEach(function (item) {
-      if (!item.classList.contains('hidden')) {
-        item.classList.add('hidden');
-      }
-    });
-    // удаление меток похожих объявлений и показ меток любых объявлений
+    for (var c = 0; c < cards.length; c++) {
+      cards[c].remove();
+    }
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    pins.forEach(function (item, index) {
-      item.style.visibility = 'hidden';
-      // item.style.visibility = (index < 5) ? 'visible' : 'hidden';
+    for (var h = 0; h < pins.length; h++) {
+      pins[h].remove();
+    }
 
-      if (pins[index].classList.contains('map__pin--active')) {
-        item.classList.remove('map__pin--active');
-      }
-    });
+    form.reset();
   });
 })();
