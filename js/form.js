@@ -28,7 +28,7 @@
           if (HashAmountOfRooms.amountOfGuests !== selectGuestAmount[y].value) {
             selectGuestAmount[y].setAttribute('disabled', '');
           } else {
-            selectGuestAmount[y].removeAttribute('disabled');
+            selectGuestAmount.value = '1';
           }
         }
         break;
@@ -51,12 +51,21 @@
         for (var z = 0; z < selectGuestAmount.children.length; z++) {
           if (selectRoomAmount[z].value <= 3) {
             selectGuestAmount[z].setAttribute('disabled', '');
+            // selectGuestAmount.value = '1';
           } else {
             selectGuestAmount[z].removeAttribute('disabled');
+            selectGuestAmount.value = '0';
           }
         }
         break;
     }
+
+    // if (selectRoomAmount.value === '100' && selectGuestAmount.value === '1') {
+    //   alert('no fo gu')
+    //   selectGuestAmount.value = '0';
+    // } else {
+    //   selectGuestAmount.setCustomValidity('');
+    // }
   }
 
   selectRoomAmount.addEventListener('change', selectValidHandler);
@@ -101,6 +110,7 @@
   // валидация времени
   var timeIn = form.querySelector('#timein');
   var timeOut = form.querySelector('#timeout');
+
   timeIn.addEventListener('change', function () {
     if (timeIn.value === '13:00') {
       timeOut.value = '13:00';
@@ -111,14 +121,25 @@
     }
   });
 
+  timeOut.addEventListener('change', function () {
+    if (timeOut.value === '13:00') {
+      timeIn.value = '13:00';
+    } else if (timeOut.value === '14:00') {
+      timeIn.value = '14:00';
+    } else {
+      timeIn.value = '12:00';
+    }
+  });
+
   // отправка формы
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     var successHandler = function () {
-      var successTemplate = document.querySelector('#success').content.querySelector('.success');
       document.querySelector('main').appendChild(successTemplate);
       document.addEventListener('click', function () {
-        successTemplate.style.display = 'none';
+        successTemplate.remove();
       });
       document.addEventListener('keydown', function (evt2) {
         if (evt2.keyCode === window.globalValues.ESC_KEYCODE) {
@@ -132,10 +153,17 @@
       for (var i = 0; i < pins.length; i++) {
         pins[i].style.display = 'none';
       }
+
       // переход в неактивное состояние
       document.querySelector('#address').value = (parseInt(document.querySelector('.map__pin--main').style.top, 10) + 33 + 'px') + ' ' + (parseInt(document.querySelector('.map__pin--main').style.left, 10) + 33 + 'px');
       document.querySelector('.map').classList.add('map--faded');
       document.querySelector('.ad-form').classList.add('ad-form--disabled');
+
+      var filtersInputs = document.querySelector('.map__filters').children;
+      // при неактивном состоянии форма фильтрации заблокирована
+      for (var a = 0; a < filtersInputs.length; a++) {
+        filtersInputs[a].setAttribute('disabled', '');
+      }
 
       var fieldsets = document.querySelector('.ad-form').children;
       for (var j = 0; j < fieldsets.length; j++) {
@@ -171,6 +199,22 @@
 
   // ресет формы
   form.querySelector('.ad-form__reset').addEventListener('click', function () {
+    // переход в неактивное состояние
+    document.querySelector('#address').value = (parseInt(document.querySelector('.map__pin--main').style.top, 10) + 33 + 'px') + ' ' + (parseInt(document.querySelector('.map__pin--main').style.left, 10) + 33 + 'px');
+    document.querySelector('.map').classList.add('map--faded');
+    document.querySelector('.ad-form').classList.add('ad-form--disabled');
+
+    var fieldsets = document.querySelector('.ad-form').children;
+    for (var j = 0; j < fieldsets.length; j++) {
+      fieldsets[j].setAttribute('disabled', '');
+    }
+
+    var filtersInputs = document.querySelector('.map__filters').children;
+    // при неактивном состоянии форма фильтрации заблокирована
+    for (var i = 0; i < filtersInputs.length; i++) {
+      filtersInputs[i].setAttribute('disabled', '');
+    }
+
     // фиксация в адресе текущее положение главной метки
     setTimeout(function () {
       document.querySelector('#address').value = (parseInt(document.querySelector('.map__pin--main').style.top, 10) + window.globalValues.CENTER_OF_PIN + 'px') + ' ' +
@@ -189,7 +233,7 @@
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pins.forEach(function (item, index) {
       item.style.visibility = 'hidden';
-      item.style.visibility = (index < 5) ? 'visible' : 'hidden';
+      // item.style.visibility = (index < 5) ? 'visible' : 'hidden';
 
       if (pins[index].classList.contains('map__pin--active')) {
         item.classList.remove('map__pin--active');

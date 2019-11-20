@@ -27,8 +27,7 @@
     }
 
     var filterType = function (elem, index) {
-      var type = cards[index].querySelector('.popup__type').textContent;
-
+      var type = cards[index].querySelector('.popup__type').getAttribute('value');
       if (type === typeValue) {
         return elem;
       } else if (typeValue === 'any') {

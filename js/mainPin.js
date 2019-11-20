@@ -61,8 +61,8 @@
 
     document.addEventListener('mousemove', mainPinMousemoveHandler);
     document.addEventListener('mouseup', mainPinMouseupHandler);
-    document.querySelector('#address').value = (parseInt(mainPin.style.top, 10) + window.globalValues.DISTANCE_X_TO_SHARP_POINT_OF_PIN + 'px') + ' ' +
-      (parseInt(mainPin.style.left, 10) + window.globalValues.DISTANCE_Y_TO_SHARP_POINT_OF_PIN + 'px');
+    document.querySelector('#address').value = (parseInt(mainPin.style.left, 10) + window.globalValues.DISTANCE_X_TO_SHARP_POINT_OF_PIN + 'px') + ' ' +
+      (parseInt(mainPin.style.top, 10) + window.globalValues.DISTANCE_Y_TO_SHARP_POINT_OF_PIN + 'px');
   });
 
   // переход в активное состояние
@@ -104,6 +104,6 @@
   mainPin.addEventListener('mousedown', mainPinMouseDownHandler, true);
   mainPin.addEventListener('keydown', mainPinPressHandler, true);
 
-  document.querySelector('#address').value = (parseInt(mainPin.style.top, 10) + window.globalValues.CENTER_OF_PIN + 'px') + ' ' +
-    (parseInt(mainPin.style.left, 10) + window.globalValues.CENTER_OF_PIN + 'px');
+  document.querySelector('#address').value = (parseInt(mainPin.style.left, 10) + window.globalValues.CENTER_OF_PIN + 'px') + ' ' +
+    (parseInt(mainPin.style.top, 10) + window.globalValues.CENTER_OF_PIN + 'px');
 })();

@@ -28,7 +28,11 @@
       if (!data[i].offer.type) {
         cloneCard.querySelector('.popup__type').style.display = 'none';
       } else {
-        cloneCard.querySelector('.popup__type').textContent = data[i].offer.type;
+        cloneCard.querySelector('.popup__type').textContent = (data[i].offer.type === 'flat') ? 'Квартира' :
+          (data[i].offer.type === 'bungalo') ? 'Бунгало' :
+            (data[i].offer.type === 'house') ? 'Дом' :
+              (data[i].offer.type === 'palace') ? 'Дворец' : 'Неизвестный тип жилья';
+        cloneCard.querySelector('.popup__type').setAttribute('value', data[i].offer.type);
       }
 
       if (!isFinite(data[i].offer.rooms)) {
@@ -58,28 +62,34 @@
       if (!data[i].offer.features) {
         cloneCard.querySelector('.popup__features').style.display = 'none';
       } else {
-        
-        data[i].offer.features.forEach(function(elem, index) {
+        cloneCard.querySelector('.popup__features').innerHTML = '';
+        data[i].offer.features.forEach(function (elem) {
           var li = document.createElement('li');
-          console.log(data[i].offer.features);
+          li.classList.add('popup__feature');
           li.classList.add('popup__feature--' + elem);
-          // var empty = cloneCard.querySelector('.popup__features').innerHTML;
-          for (var q = 0; q < cloneCard.querySelector('.popup__features').children.length q++) {
-            cloneCard.querySelector('.popup__features').children[q].remove();
-          }
-          console.log(empty);
-          cloneCard.querySelector('.popup__features').insertAdjacentElement('beforeend', li);
-          
-          console.log(li);
-          
-        })
-      
+
+          cloneCard.querySelector('.popup__features').insertAdjacentElement('afterbegin', li);
+        });
       }
 
       if (!data[i].offer.description) {
         cloneCard.querySelector('.popup__description').style.display = 'none';
       } else {
         cloneCard.querySelector('.popup__description').textContent = data[i].offer.description;
+      }
+
+      if (!data[i].offer.photos) {
+        cloneCard.querySelector('.popup__photos').style.display = 'none';
+      } else {
+        cloneCard.querySelector('.popup__photos').innerHTML = '';
+        data[i].offer.photos.forEach(function (item) {
+          var img = document.createElement('img');
+          img.classList.add('popup__photo');
+          img.src = item;
+          img.width = '45';
+          img.height = '40';
+          cloneCard.querySelector('.popup__photos').insertAdjacentElement('afterbegin', img);
+        });
       }
 
       if (!data[i].author.avatar) {
@@ -153,7 +163,7 @@
           cards[index].style.left = evt.clientX + 'px';
           // если карточка вылезает вниз, разместить ее повыше
           if (parseInt(cards[index].style.top, 10) > 400) {
-            cards[index].style.top = parseInt(cards[index].style.top, 10) - 300 + 'px';
+            cards[index].style.top = parseInt(cards[index].style.top, 10) - 450 + 'px';
           }
           // если карточка располагается сильно вправо, сделать полевее
           if (parseInt(cards[index].style.left, 10) > 700) {
