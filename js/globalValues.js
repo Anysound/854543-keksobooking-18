@@ -1,4 +1,5 @@
 'use strict';
+// Здравствуйте! Заранее прощу прощения за свой говнокод, старался как мог)
 (function () {
   window.globalValues = {
     ENTER_KEYCODE: 13,
