@@ -28,11 +28,22 @@
       if (!data[i].offer.type) {
         cloneCard.querySelector('.popup__type').style.display = 'none';
       } else {
-        cloneCard.querySelector('.popup__type').textContent = (data[i].offer.type === 'flat') ? 'Квартира' :
-          (data[i].offer.type === 'bungalo') ? 'Бунгало' :
-            (data[i].offer.type === 'house') ? 'Дом' :
-              (data[i].offer.type === 'palace') ? 'Дворец' : 'Неизвестный тип жилья';
-        cloneCard.querySelector('.popup__type').setAttribute('value', data[i].offer.type);
+        if (data[i].offer.type === 'flat') {
+          cloneCard.querySelector('.popup__type').textContent = 'Квартира';
+        } else if (data[i].offer.type === 'bungalo') {
+          cloneCard.querySelector('.popup__type').textContent = 'Бунгало';
+        } else if (data[i].offer.type === 'house') {
+          cloneCard.querySelector('.popup__type').textContent = 'Дом';
+        } else if (data[i].offer.type === 'palace') {
+          cloneCard.querySelector('.popup__type').textContent = 'Дворец';
+        } else {
+          cloneCard.querySelector('.popup__type').textContent = 'Неизвестный тип жилья';
+        }
+        // cloneCard.querySelector('.popup__type').textContent = (data[i].offer.type === 'flat') ? 'Квартира' : '';
+        // cloneCard.querySelector('.popup__type').textContent = (data[i].offer.type === 'bungalo') ? 'Бунгало' : '';
+        // cloneCard.querySelector('.popup__type').textContent = (data[i].offer.type === 'house') ? 'Дом' : '';
+        // cloneCard.querySelector('.popup__type').textContent =  (data[i].offer.type === 'palace') ? 'Дворец' : 'Неизвестный тип жилья';
+        // cloneCard.querySelector('.popup__type').setAttribute('value', data[i].offer.type);
       }
 
       if (!isFinite(data[i].offer.rooms)) {
@@ -65,10 +76,15 @@
         cloneCard.querySelector('.popup__features').innerHTML = '';
         data[i].offer.features.forEach(function (elem) {
           var li = document.createElement('li');
+          var span = document.createElement('span');
+          span.style.display = 'none';
+          span.classList.add('popup__feature--text');
           li.classList.add('popup__feature');
           li.classList.add('popup__feature--' + elem);
-
+          span.textContent = elem + '';
           cloneCard.querySelector('.popup__features').insertAdjacentElement('afterbegin', li);
+          cloneCard.querySelector('.popup__features').insertAdjacentElement('beforeend', span);
+          cloneCard.querySelector('.popup__features').setAttribute('value', elem);
         });
       }
 
@@ -120,72 +136,71 @@
     }
     wrapper.appendChild(fragment);
 
-    function pinClickAndPressHandler() {
-      var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      var cards = document.querySelectorAll('.map__card');
-      pins.forEach(function (elem, index) {
-        elem.style.visibility = 'hidden';
-        elem.setAttribute('tabindex', '0');
-        var pinPressShowHandler = function (evt2) {
-          if (evt2.keyCode === window.globalValues.ENTER_KEYCODE) {
-            cards[index].classList.remove('hidden');
-          }
-        };
 
-        var pinPressHideHandler = function (evt) {
-          if (evt.keyCode === window.globalValues.ESC_KEYCODE) {
-            cards[index].classList.add('hidden');
-            for (var y = 0; y < pins.length; y++) {
-              if (pins[y].classList.contains('map__pin--active')) {
-                pins[y].classList.remove('map__pin--active');
-              }
-            }
-          }
-        };
-        elem.addEventListener('keydown', pinPressShowHandler, true);
-        elem.addEventListener('keydown', pinPressHideHandler, true);
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var cards = document.querySelectorAll('.map__card');
+    // создание обработчиков на пины и карточки
+    pins.forEach(function (elem, index) {
+      elem.style.visibility = 'hidden';
+      elem.setAttribute('tabindex', '0');
 
-        var pinClickShowHandler = function (evt) {
-          for (var z = 0; z < cards.length; z++) {
-            cards[index].classList.remove('hidden');
-            pins[index].classList.add('map__pin--active');
-            if (cards[index].classList.contains('hidden')) {
-              cards[index].classList.remove('hidden');
-              pins[index].classList.remove('map__pin--active');
-            } else {
-              cards[z].classList.add('hidden');
-              pins[z].classList.remove('map__pin--active');
-            }
-          }
-
+      var pinPressShowHandler = function (evt2) {
+        if (evt2.keyCode === window.globalValues.ENTER_KEYCODE) {
           cards[index].classList.remove('hidden');
-          cards[index].style.top = evt.clientY + 'px';
-          cards[index].style.left = evt.clientX + 'px';
-          // если карточка вылезает вниз, разместить ее повыше
-          if (parseInt(cards[index].style.top, 10) > 400) {
-            cards[index].style.top = parseInt(cards[index].style.top, 10) - 450 + 'px';
-          }
-          // если карточка располагается сильно вправо, сделать полевее
-          if (parseInt(cards[index].style.left, 10) > 700) {
-            cards[index].style.left = parseInt(cards[index].style.left, 10) - 600 + 'px';
-          }
+        }
+      };
 
-          cards[index].querySelector('.popup__close').setAttribute('tabindex', '0');
-          cards[index].querySelector('.popup__close').addEventListener('click', pinClickHiddenHandler);
-        };
-
-        var pinClickHiddenHandler = function () {
+      var pinPressHideHandler = function (evt) {
+        if (evt.keyCode === window.globalValues.ESC_KEYCODE) {
           cards[index].classList.add('hidden');
           for (var y = 0; y < pins.length; y++) {
             if (pins[y].classList.contains('map__pin--active')) {
               pins[y].classList.remove('map__pin--active');
             }
           }
-        };
-        elem.addEventListener('click', pinClickShowHandler);
-      });
-    }
-    pinClickAndPressHandler();
+        }
+      };
+      elem.addEventListener('keydown', pinPressShowHandler, true);
+      elem.addEventListener('keydown', pinPressHideHandler, true);
+
+      var pinClickShowHandler = function (evt) {
+        for (var z = 0; z < cards.length; z++) {
+          cards[index].classList.remove('hidden');
+          pins[index].classList.add('map__pin--active');
+          if (cards[index].classList.contains('hidden')) {
+            cards[index].classList.remove('hidden');
+            pins[index].classList.remove('map__pin--active');
+          } else {
+            cards[z].classList.add('hidden');
+            pins[z].classList.remove('map__pin--active');
+          }
+        }
+        cards[index].classList.remove('hidden');
+        cards[index].style.top = evt.clientY + 'px';
+        cards[index].style.left = evt.clientX + 'px';
+        // если карточка вылезает вниз, разместить ее повыше
+        if (parseInt(cards[index].style.top, 10) > 400) {
+          cards[index].style.top = parseInt(cards[index].style.top, 10) - 450 + 'px';
+        }
+        // если карточка располагается сильно вправо, сделать полевее
+        if (parseInt(cards[index].style.left, 10) > 700) {
+          cards[index].style.left = parseInt(cards[index].style.left, 10) - 600 + 'px';
+        }
+        cards[index].querySelector('.popup__close').setAttribute('tabindex', '0');
+        cards[index].querySelector('.popup__close').addEventListener('click', pinClickHiddenHandler);
+      };
+
+      var pinClickHiddenHandler = function () {
+        cards[index].classList.add('hidden');
+        for (var y = 0; y < pins.length; y++) {
+          if (pins[y].classList.contains('map__pin--active')) {
+            pins[y].classList.remove('map__pin--active');
+          }
+        }
+      };
+
+      elem.addEventListener('click', pinClickShowHandler);
+    });
   };
 
   var errorHandler = function () {

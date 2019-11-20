@@ -112,7 +112,15 @@
         }
       }
       // массив из удобств в карточке
-      var cardFeatures = elem.querySelector('.popup__features').textContent.split(',');
+      // var cardFeatures = elem.querySelector('.popup__features').children.split(',');
+      var words = elem.querySelector('.popup__features').children;
+      // console.log(cardFeatures);
+      var cardFeatures = [];
+      for (var t = 0; t < words.length; t++) {
+        if (words[t].classList.contains('popup__feature--text')) {
+          cardFeatures.push(words[t].textContent);
+        }
+      }
       var matchingFeatures = []; // совпадающие элементы
       // добавление в отдельный массив совпадающих элементов
       for (var c = 0; c < selectedFeatures.length; c++) {
