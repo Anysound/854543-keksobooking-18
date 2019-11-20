@@ -59,13 +59,6 @@
         }
         break;
     }
-
-    // if (selectRoomAmount.value === '100' && selectGuestAmount.value === '1') {
-    //   alert('no fo gu')
-    //   selectGuestAmount.value = '0';
-    // } else {
-    //   selectGuestAmount.setCustomValidity('');
-    // }
   }
 
   selectRoomAmount.addEventListener('change', selectValidHandler);

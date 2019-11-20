@@ -39,11 +39,6 @@
         } else {
           cloneCard.querySelector('.popup__type').textContent = 'Неизвестный тип жилья';
         }
-        // cloneCard.querySelector('.popup__type').textContent = (data[i].offer.type === 'flat') ? 'Квартира' : '';
-        // cloneCard.querySelector('.popup__type').textContent = (data[i].offer.type === 'bungalo') ? 'Бунгало' : '';
-        // cloneCard.querySelector('.popup__type').textContent = (data[i].offer.type === 'house') ? 'Дом' : '';
-        // cloneCard.querySelector('.popup__type').textContent =  (data[i].offer.type === 'palace') ? 'Дворец' : 'Неизвестный тип жилья';
-        // cloneCard.querySelector('.popup__type').setAttribute('value', data[i].offer.type);
       }
 
       if (!isFinite(data[i].offer.rooms)) {
@@ -135,7 +130,6 @@
       fragment.appendChild(clone);
     }
     wrapper.appendChild(fragment);
-
 
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     var cards = document.querySelectorAll('.map__card');
